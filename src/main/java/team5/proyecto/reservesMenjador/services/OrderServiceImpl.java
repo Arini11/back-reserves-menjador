@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import team5.proyecto.reservesMenjador.dao.IOrderDAO;
 import team5.proyecto.reservesMenjador.dto.Order;
+import team5.proyecto.reservesMenjador.dto.Users;
 
 @Service
 public class OrderServiceImpl implements IOrderService {
@@ -37,6 +38,11 @@ public class OrderServiceImpl implements IOrderService {
 	@Override
 	public void deleteOrder(int id) {
 		orderDAO.deleteById(id);
+	}
+
+	@Override
+	public List<Order> findByUser(Users user) {
+		return orderDAO.getOrdersByUser(user);
 	}
 
 }
