@@ -37,7 +37,7 @@ public class Dishes {
     	
 	@JsonIgnore
 	@Exclude	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "idDish")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "dish")
     private @Getter @Setter List<Categories_dishes> catg_dishes;
     
     /*
