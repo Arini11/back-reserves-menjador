@@ -1,0 +1,9 @@
+Dish(id int,name varchar(30),image byte[],idCategory int) 
+	idCategory REFERENCES Category(id)
+
+Category(id int,name varchar(30))
+
+Roles(id int, nombre varchar(30))
+
+Users(id int, username varchar(30), email(30), rolesId int)
+	rolesId references Roles(id)
