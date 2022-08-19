@@ -7,7 +7,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -34,8 +34,8 @@ public class Categories {
 	
 	@JsonIgnore
 	@Exclude
-	@ManyToMany(fetch = FetchType.LAZY,mappedBy = "categories")
-    private @Getter @Setter List<Dishes> dishes;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "idCategory")	
+    private @Getter @Setter List<Categories_dishes> catg_dishes;
 
-    //por si volvemos a basico @OneToMany(fetch = FetchType.LAZY, mappedBy = "idCategory")
+    //@ManyToMany(fetch = FetchType.LAZY,mappedBy = "idCategory")
 }
