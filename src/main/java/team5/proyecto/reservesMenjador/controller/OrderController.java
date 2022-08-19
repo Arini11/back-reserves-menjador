@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.*;
 import team5.proyecto.reservesMenjador.dto.Order;
 import team5.proyecto.reservesMenjador.dto.Users;
 import team5.proyecto.reservesMenjador.services.OrderServiceImpl;
+
+import team5.proyecto.reservesMenjador.dto.Users;
+
 import team5.proyecto.reservesMenjador.services.usersServiceImpl;
 
 @RestController
@@ -18,7 +21,8 @@ public class OrderController {
 	OrderServiceImpl orderServ;
 
 	@Autowired
-	usersServiceImpl userServiceImpl;
+
+	usersServiceImpl usersServiceImpl;
 
 	@GetMapping("/orders")
 	public List<Order> getAll(){
@@ -32,10 +36,11 @@ public class OrderController {
 		return order;
 	}
 
-	@GetMapping("/orders/user/{user}")
-	public List<Order> userById(@PathVariable (name = "usuario") String user) {
-		Users userSel = userServiceImpl.userXId(user);
-		
+	@GetMapping("/orders/user/{Id}")
+
+	public List<Order> userById(@PathVariable (name = "Id") Long Id) {
+		Users userSel = usersServiceImpl.usersPorId(Id);
+
 		return orderServ.findByUser(userSel);
 	}
 
