@@ -1,6 +1,8 @@
 package team5.proyecto.reservesMenjador.dto;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -18,14 +20,17 @@ import lombok.ToString;
 @AllArgsConstructor
 @Table(name="categories_dishes")
 public class Categories_dishes {
+	
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
+	
 	@ManyToOne
-    @JoinColumn(name = "idDish")
+    @JoinColumn(name = "dish")
     private @Getter @Setter Dishes dish;
  
-	@Id
-    @ManyToOne
-    @JoinColumn(name = "idCategory")
+	@ManyToOne
+    @JoinColumn(name = "category")
     private @Getter @Setter Categories category;
 
 }
