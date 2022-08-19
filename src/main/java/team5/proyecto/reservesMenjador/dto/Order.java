@@ -1,8 +1,11 @@
 package team5.proyecto.reservesMenjador.dto;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,4 +28,7 @@ public class Order {
 	
 	@Exclude @ManyToOne	@JoinColumn(name = "user_id")
 	private @Getter @Setter Users user;
+	
+	@JsonIgnore	@Exclude @OneToMany(fetch = FetchType.LAZY, mappedBy = "order")
+    private @Getter @Setter List<DishesOrders> dishesOrders;
 }

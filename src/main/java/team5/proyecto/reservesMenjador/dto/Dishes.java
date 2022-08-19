@@ -26,19 +26,19 @@ import lombok.ToString.Exclude;
 @AllArgsConstructor
 public class Dishes {
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private @Getter @Setter int id;
 	
 	private @Getter @Setter String nameD;	
 	private @Getter @Setter Byte[] image;	
     private @Getter @Setter int popularity;
     
-    	
-	@JsonIgnore
-	@Exclude	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "dish")
+    
+	@JsonIgnore	@Exclude @OneToMany(fetch = FetchType.LAZY, mappedBy = "dish")
     private @Getter @Setter List<Categories_dishes> catg_dishes;
+    
+    @JsonIgnore	@Exclude @OneToMany(fetch = FetchType.LAZY, mappedBy = "dish")
+    private @Getter @Setter List<DishesOrders> dishesOrders;
     
     /*
      * creacion tabla intermedia a traves JoinTable en dishes
