@@ -24,5 +24,5 @@ public class Order {
 	private @Getter @Setter Date date;
 	
 	@Exclude @ManyToOne	@JoinColumn(name = "user_id")
-	private @Getter @Setter User user;
+	private @Getter @Setter Users users;
 }

@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 
 import team5.proyecto.reservesMenjador.dto.Order;
 import team5.proyecto.reservesMenjador.services.OrderServiceImpl;
+import team5.proyecto.reservesMenjador.dto.Users;
+import team5.proyecto.reservesMenjador.services.usersServiceImpl;
 
 @RestController
 @RequestMapping("/api")
@@ -16,7 +18,7 @@ public class OrderController {
 	OrderServiceImpl orderServ;
 
 	@Autowired
-	UserServiceImpl userServiceImpl;
+	usersServiceImpl usersServiceImpl;
 
 	@GetMapping("/orders")
 	public List<Order> getAll(){
@@ -31,8 +33,8 @@ public class OrderController {
 	}
 
 	@GetMapping("/orders/user/{user}")
-	public List<Order> userById(@PathVariable (name = "usuario") String user) {
-		User userSel = userServiceImpl.userXId(user);
+	public List<Order> userById(@PathVariable (name = "usuario") String users) {
+		Users userSel = usersServiceImpl.usersPorId(users);
 		
 		return orderServ.buscaPorUsuario(userSel);
 	}
@@ -51,7 +53,7 @@ public class OrderController {
 		orderSel = orderServ.orderXId(id);
 		orderSel.setId(id);
 		orderSel.setDate(order.getDate());
-		orderSel.setUser(order.getUser());
+		orderSel.setUsers(order.getUsers());
 		orderUpdate = orderServ.updateOrder(orderSel);
 
 		return orderUpdate;
