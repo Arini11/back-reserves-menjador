@@ -3,6 +3,7 @@ package team5.proyecto.reservesMenjador.services;
 import java.util.List;
 
 import team5.proyecto.reservesMenjador.dto.Order;
+import team5.proyecto.reservesMenjador.dto.Users;
 
 public interface IOrderService {
 
@@ -15,4 +16,6 @@ public interface IOrderService {
 	public Order updateOrder(Order order);
 
 	public void deleteOrder(int id);
+	
+	public List<Order> findByUser(Users user);	
 }
