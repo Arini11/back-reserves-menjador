@@ -2,15 +2,11 @@ package team5.proyecto.reservesMenjador.dto;
 
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinTable;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -42,9 +38,10 @@ public class Dishes {
 	@JsonIgnore
 	@Exclude	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "idDish")
-    private @Getter @Setter List<Categories> categories;
+    private @Getter @Setter List<Categories_dishes> catg_dishes;
     
     /*
+     * creacion tabla intermedia a traves JoinTable en dishes
 	 * @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	 * 
 	 * @JoinTable( name = "categories_dishes", joinColumns = {@JoinColumn(name =
