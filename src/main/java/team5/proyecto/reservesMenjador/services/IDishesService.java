@@ -2,15 +2,15 @@ package team5.proyecto.reservesMenjador.services;
 
 import java.util.List;
 
-import team5.proyecto.reservesMenjador.dto.Dishes;
+import team5.proyecto.reservesMenjador.dto.Dish;
 
 public interface IDishesService {
 	//CRUD
-	public List<Dishes> getDishes(); //CREATE || UPDATE
+	public List<Dish> getDishes(); //CREATE || UPDATE
 
-	public Dishes saveDish(Dishes dish);
+	public Dish saveDish(Dish dish);
 
-	public Dishes dishById(int id);
+	public Dish findDishById(int id);
 
 	public void deleteDish(int id);
 

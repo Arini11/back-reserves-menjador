@@ -12,57 +12,57 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import team5.proyecto.reservesMenjador.dto.Dishes;
-import team5.proyecto.reservesMenjador.services.DishesServiceImpl;
+import team5.proyecto.reservesMenjador.dto.Dish;
+import team5.proyecto.reservesMenjador.services.IDishesService;
 
 @RestController
 @RequestMapping("/api")
 public class DishesController {
 
 	@Autowired
-	DishesServiceImpl dishesServiceImpl;
-	
+	private IDishesService dishesServiceImpl;
+
 	@GetMapping("/dishes")
-	public List<Dishes> getDishes(){
+	public List<Dish> getDishes() {
 		return dishesServiceImpl.getDishes();
 	}
-	
+
 	@GetMapping("/dishes/{id}")
-	public Dishes dishById(@PathVariable(name="id") int id) {		
-		return dishesServiceImpl.dishById(id);	
+	public Dish findDishById(@PathVariable(name = "id") int id) {
+		return dishesServiceImpl.findDishById(id);
 	}
-	
+
 	@DeleteMapping("/dishes/{id}")
-	public void deleteDepartamento(@PathVariable(name="id") int id) {
+	public void deleteDish(@PathVariable(name = "id") int id) {
 		dishesServiceImpl.deleteDish(id);
 	}
-	
-	@PostMapping("/dishes") //crear
-	public String saveDish(@RequestBody Dishes dish) {				
-		//validar datos que entran por body, que no se repita el nombre
+
+	@PostMapping("/dishes") // crear
+	public String saveDish(@RequestBody Dish dish) {
+		// validar datos que entran por body, que no se repita el nombre
 		boolean exists = false;
-		
-		for (Dishes d : dishesServiceImpl.getDishes()) {
-			if(d.getNameD().equals(dish.getNameD())) {
+
+		for (Dish iterateDish : dishesServiceImpl.getDishes()) {
+			if (iterateDish.getNameD().equals(dish.getNameD())) {
 				exists = true;
 			}
 		}
-		if(!exists) {
+		if (!exists) {
 			dishesServiceImpl.saveDish(dish);
 			return "Plato guardado!";
 		}
-		return "El plato ya existe!";			
+		return "El plato ya existe!";
 	}
-	
+
 	@PutMapping("/dishes/{id}")
-	public Dishes updateDish(@PathVariable(name="id") int id, @RequestBody Dishes dish) {
-		Dishes dish_selec = dishesServiceImpl.dishById(id);
-		
-		dish_selec.setNameD(dish.getNameD());
-		dish_selec.setImage(dish.getImage());
-		dish_selec.setPopularity(dish.getPopularity());		
-		
-		return dishesServiceImpl.saveDish(dish_selec);
+	public Dish updateDish(@PathVariable(name = "id") int id, @RequestBody Dish dish) {
+		Dish dishSelected = dishesServiceImpl.findDishById(id);
+
+		dishSelected.setNameD(dish.getNameD());
+		dishSelected.setImage(dish.getImage());
+		dishSelected.setPopularity(dish.getPopularity());
+
+		return dishesServiceImpl.saveDish(dishSelected);
 	}
-	
+
 }

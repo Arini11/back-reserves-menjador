@@ -6,26 +6,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import team5.proyecto.reservesMenjador.dao.IDishesDAO;
-import team5.proyecto.reservesMenjador.dto.Dishes;
+import team5.proyecto.reservesMenjador.dto.Dish;
 
-@Service 
-public class DishesServiceImpl implements IDishesService{
-	
+@Service
+public class DishesServiceImpl implements IDishesService {
+
 	@Autowired
-	IDishesDAO iDishesDao;
+	private IDishesDAO iDishesDao;
 
 	@Override
-	public List<Dishes> getDishes() {
+	public List<Dish> getDishes() {
 		return iDishesDao.findAll();
 	}
 
 	@Override
-	public Dishes saveDish(Dishes dish) {
+	public Dish saveDish(Dish dish) {		
+		//FIXME: Controlar duplicidad nombre
 		return iDishesDao.save(dish);
 	}
 
 	@Override
-	public Dishes dishById(int id) {
+	public Dish findDishById(int id) {
 		return iDishesDao.findById(id).get();
 	}
 

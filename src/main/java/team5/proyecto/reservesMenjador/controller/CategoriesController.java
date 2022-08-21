@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import team5.proyecto.reservesMenjador.dto.Categories;
+import team5.proyecto.reservesMenjador.dto.Dish;
 import team5.proyecto.reservesMenjador.services.CategoriesServiceImpl;
 
 
@@ -68,5 +69,13 @@ public class CategoriesController {
 		cat_selec.setNameC(category.getNameC());	
 		
 		return catServImpl.saveCategory(cat_selec);
+	}
+	
+	@PutMapping("/categories/{id}/dish/{idDish}")
+	public void addDishToCategory(int id, int idDish) {
+		Categories category = catServImpl.categoryById(id);
+		category.getDishes().add(new Dish(idDish));
+		catServImpl.saveCategory(category);
+		
 	}
 }
