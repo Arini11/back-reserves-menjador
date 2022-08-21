@@ -16,11 +16,13 @@ import lombok.ToString.Exclude;
 @AllArgsConstructor
 public class DishesOrders {
 
+	//no necesaria ninguna de los .java referentes
+	
 	@Id	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
 	@Exclude @ManyToOne @JoinColumn(name = "dish")
-	private @Getter @Setter Dishes dish;
+	private @Getter @Setter Dish dish;
 
 	@Exclude @ManyToOne @JoinColumn(name = "order")
 	private @Getter @Setter Order order;

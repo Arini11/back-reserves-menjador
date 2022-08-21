@@ -24,7 +24,7 @@ import lombok.ToString.Exclude;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class Categories {
+public class Category {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

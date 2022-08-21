@@ -27,7 +27,7 @@ public class DishesServiceImpl implements IDishesService {
 
 	@Override
 	public Dish findDishById(int id) {
-		return iDishesDao.findById(id).get();
+		return iDishesDao.findById(id).orElse(null);
 	}
 
 	@Override

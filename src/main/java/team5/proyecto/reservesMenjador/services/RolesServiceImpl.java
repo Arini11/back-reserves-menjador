@@ -8,39 +8,34 @@ import team5.proyecto.reservesMenjador.dao.IRolesDAO;
 import team5.proyecto.reservesMenjador.dto.Roles;
 
 @Service
-public class rolesServiceImpl implements IrolesService{
+public class RolesServiceImpl implements IRolesService{
 
 	@Autowired
 	IRolesDAO irolesDAO;
 
 	@Override
-	public List<Roles> listarRoles() {
-		
+	public List<Roles> getRoles() {		
 		return irolesDAO.findAll();
 	}
 
 	@Override
-	public Roles guardarRol(Roles roles) {
+	public Roles saveRol(Roles roles) {
 		return irolesDAO.save(roles);
 	}
 
 	@Override
-	public Roles rolesPorId(Long Id) {
-		
-		return irolesDAO.findById(Id).get();
+	public Roles rolesById(Long Id) {		
+		return irolesDAO.findById(Id).orElse(null);
 	}
 
 	@Override
-	public Roles actualizarRol(Roles roles) {
-		
+	public Roles updateRol(Roles roles) {		
 		return irolesDAO.save(roles);
 	}
 
 	@Override
-	public void eliminarRol(Long Id) {
-		irolesDAO.deleteById(Id);
-		
-	}
-	
+	public void deleteRol(Long Id) {
+		irolesDAO.deleteById(Id);		
+	}	
 	
 }

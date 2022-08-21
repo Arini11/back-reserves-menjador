@@ -41,10 +41,15 @@ public class Dish {
 	@JsonIgnore
 	@Exclude
 	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-	@JoinTable(name = "categories_dishes", joinColumns = { @JoinColumn(name = "dish") }, inverseJoinColumns = {
-			@JoinColumn(name = "category") })
-	private @Getter @Setter List<Categories> categories;
+	@JoinTable(name = "categories_dishes", 
+			joinColumns = { @JoinColumn(name = "dish") },
+			inverseJoinColumns = { @JoinColumn(name = "category") })
+	private @Getter @Setter List<Category> categories;
 
+	
+	//esta tabla podria crearse en dishes o en order, desde dish acceder a 
+	//sus comandas o desde comanda ver que platos hay?
+	
 	@JsonIgnore
 	@Exclude
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "dish")

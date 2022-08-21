@@ -9,9 +9,8 @@ import team5.proyecto.reservesMenjador.dto.Order;
 import team5.proyecto.reservesMenjador.dto.Users;
 import team5.proyecto.reservesMenjador.services.OrderServiceImpl;
 
-import team5.proyecto.reservesMenjador.dto.Users;
 
-import team5.proyecto.reservesMenjador.services.usersServiceImpl;
+import team5.proyecto.reservesMenjador.services.UsersServiceImpl;
 
 @RestController
 @RequestMapping("/api")
@@ -21,8 +20,7 @@ public class OrderController {
 	OrderServiceImpl orderServ;
 
 	@Autowired
-
-	usersServiceImpl usersServiceImpl;
+	UsersServiceImpl usersServiceImpl;
 
 	@GetMapping("/orders")
 	public List<Order> getAll(){
@@ -31,15 +29,12 @@ public class OrderController {
 
 	@GetMapping("/orders/{id}")
 	public Order getById(@PathVariable (name = "id") int id) {
-		Order order = new Order();
-		order = orderServ.orderXId(id);
-		return order;
+		return orderServ.orderById(id);
 	}
 
 	@GetMapping("/orders/user/{Id}")
-
 	public List<Order> userById(@PathVariable (name = "Id") Long Id) {
-		Users userSel = usersServiceImpl.usersPorId(Id);
+		Users userSel = usersServiceImpl.userById(Id);
 
 		return orderServ.findByUser(userSel);
 	}
@@ -52,16 +47,12 @@ public class OrderController {
 	@PutMapping("orders/update/{id}")
 	public Order update(@PathVariable (name = "id") int id, @RequestBody Order order) {
 		
-		Order orderSel = new Order();
-		Order orderUpdate = new Order();
-		
-		orderSel = orderServ.orderXId(id);
-		orderSel.setId(id);
+		Order orderSel = orderServ.orderById(id);
+		orderSel.setId(id); //seguro que queremos cambiarle id ??
 		orderSel.setDate(order.getDate());
 		orderSel.setUser(order.getUser());
-		orderUpdate = orderServ.updateOrder(orderSel);
 
-		return orderUpdate;
+		return orderServ.updateOrder(orderSel);
 	}
 
 	@DeleteMapping("orders/delete/{id}")

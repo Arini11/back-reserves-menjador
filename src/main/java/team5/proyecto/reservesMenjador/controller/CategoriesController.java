@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import team5.proyecto.reservesMenjador.dto.Categories;
+import team5.proyecto.reservesMenjador.dto.Category;
 import team5.proyecto.reservesMenjador.dto.Dish;
 import team5.proyecto.reservesMenjador.services.CategoriesServiceImpl;
 
@@ -25,13 +25,13 @@ public class CategoriesController {
 	CategoriesServiceImpl catServImpl;
 
 	@GetMapping("/categories")
-	public List<Categories> getCategories(){
+	public List<Category> getCategories(){
 		return catServImpl.getCategories();
 	}
 
 	@GetMapping("/categories/{id}")
-	public Categories findByID(@PathVariable(name="id") int id) {
-		return catServImpl.categoryById(id);
+	public Category findByID(@PathVariable(name="id") int id) {
+		return catServImpl.findCategoryById(id);
 	}
 	
 //	@GetMapping("/categories/nombre/{nombre}")
@@ -45,11 +45,11 @@ public class CategoriesController {
 	}
 	
 	@PostMapping("/categories") //crear
-	public String saveCategory(@RequestBody Categories category) {				
+	public String saveCategory(@RequestBody Category category) {				
 		//validar datos que entran por body , que no se repita el nombre
 		boolean exists = false;
 		
-		for (Categories c : catServImpl.getCategories()) {
+		for (Category c : catServImpl.getCategories()) {
 			if(c.getNameC().equals(category.getNameC())) {
 				exists = true;
 			}
@@ -63,8 +63,8 @@ public class CategoriesController {
 	
 		
 	@PutMapping("/categories/{id}")
-	public Categories guardarEmpleado(@PathVariable(name="id") int id, @RequestBody Categories category) {
-		Categories cat_selec = catServImpl.categoryById(id);
+	public Category guardarEmpleado(@PathVariable(name="id") int id, @RequestBody Category category) {
+		Category cat_selec = catServImpl.findCategoryById(id);
 		
 		cat_selec.setNameC(category.getNameC());	
 		
@@ -73,7 +73,7 @@ public class CategoriesController {
 	
 	@PutMapping("/categories/{id}/dish/{idDish}")
 	public void addDishToCategory(int id, int idDish) {
-		Categories category = catServImpl.categoryById(id);
+		Category category = catServImpl.findCategoryById(id);
 		category.getDishes().add(new Dish(idDish));
 		catServImpl.saveCategory(category);
 		

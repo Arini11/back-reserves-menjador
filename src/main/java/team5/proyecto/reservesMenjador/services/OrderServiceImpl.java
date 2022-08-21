@@ -26,8 +26,8 @@ public class OrderServiceImpl implements IOrderService {
 	}
 
 	@Override
-	public Order orderXId(int id) {
-		return orderDAO.findById(id).get();
+	public Order orderById(int id) {
+		return orderDAO.findById(id).orElse(null);
 	}
 
 	@Override

@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import team5.proyecto.reservesMenjador.dao.ICategoriesDAO;
-import team5.proyecto.reservesMenjador.dto.Categories;
+import team5.proyecto.reservesMenjador.dto.Category;
 
 @Service
 public class CategoriesServiceImpl implements ICategoriesService{
@@ -15,18 +15,18 @@ public class CategoriesServiceImpl implements ICategoriesService{
 	ICategoriesDAO iCategoriesDao;
 	
 	@Override
-	public List<Categories> getCategories() {
+	public List<Category> getCategories() {
 		return iCategoriesDao.findAll();
 	}
 
 	@Override
-	public Categories saveCategory(Categories categ) {
+	public Category saveCategory(Category categ) {
 		return iCategoriesDao.save(categ);
 	}
 
 	@Override
-	public Categories categoryById(int id) {
-		return iCategoriesDao.findById(id).get();
+	public Category findCategoryById(int id) {
+		return iCategoriesDao.findById(id).orElse(null);
 	}
 
 	@Override

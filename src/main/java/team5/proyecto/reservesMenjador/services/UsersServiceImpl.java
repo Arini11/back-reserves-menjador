@@ -9,38 +9,34 @@ import team5.proyecto.reservesMenjador.dto.Users;
 
 
 @Service
-public class usersServiceImpl implements IusersService {
+public class UsersServiceImpl implements IUsersService {
 	
 	@Autowired
 	IUsersDAO iusersDAO;
 
 	@Override
-	public List<Users> listarUsers() {
+	public List<Users> getUsers() {
 		return iusersDAO.findAll();
 	}
 
 	@Override
-	public Users guardarUser(Users users) {
+	public Users saveUser(Users users) {
 		return iusersDAO.save(users);
 	}
 
 	@Override
-	public Users usersPorId(Long Id) {
-	
-		return iusersDAO.findById(Id).get();
+	public Users userById(Long Id) {	
+		return iusersDAO.findById(Id).orElse(null);
 	}
 
 	@Override
-	public Users actualizarUser(Users users) {
-		
+	public Users updateUser(Users users) {		
 		return iusersDAO.save(users);
 	}
 
 	@Override
-	public void eliminarUser(Long Id) {
+	public void deleteUser(Long Id) {
 		iusersDAO.deleteById(Id);
 	} 
-	
-	
 
 }

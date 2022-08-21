@@ -24,11 +24,11 @@ public class Users {
 	
 		@Id
 		@GeneratedValue(strategy = GenerationType.IDENTITY)
-		private @Getter @Setter int Id;
-		private @Getter @Setter String Username;
-		private @Getter @Setter String Email;
+		private @Getter @Setter int id;
+		private @Getter @Setter String username;
+		private @Getter @Setter String email;
 		
 		@ManyToOne @JoinColumn(name="RolesId")
-		private @Getter @Setter Roles roles;
+		private @Getter @Setter Roles rol;
 		
 }

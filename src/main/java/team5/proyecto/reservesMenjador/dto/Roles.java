@@ -21,8 +21,8 @@ public class Roles {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private @Getter @Setter int Id;
-	private @Getter @Setter String Nombre;
+	private @Getter @Setter int id;
+	private @Getter @Setter String nombre;
 	
 	@JsonIgnore 
 	@OneToMany (fetch = FetchType.LAZY, mappedBy = "roles")

@@ -11,7 +11,7 @@ public interface IOrderService {
 
 	public Order saveOrder(Order order);
 
-	public Order orderXId(int id);
+	public Order orderById(int id);
 
 	public Order updateOrder(Order order);
 
