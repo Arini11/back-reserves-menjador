@@ -12,4 +12,5 @@ public interface ICategoryDAO extends JpaRepository<Category,Integer>{
 	public Category findByNameC(String name);
 	
 	public List<Category> findByDishes(Dish dish);
+	
 }

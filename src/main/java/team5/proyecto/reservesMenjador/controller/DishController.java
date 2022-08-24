@@ -13,14 +13,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import team5.proyecto.reservesMenjador.dto.Dish;
-import team5.proyecto.reservesMenjador.services.IDishesService;
+import team5.proyecto.reservesMenjador.services.IDishService;
 
 @RestController
 @RequestMapping("/api")
-public class DishesController {
+public class DishController {
 
 	@Autowired
-	private IDishesService dishesServiceImpl;
+	private IDishService dishesServiceImpl;
 
 	@GetMapping("/dishes")
 	public List<Dish> getDishes() {
