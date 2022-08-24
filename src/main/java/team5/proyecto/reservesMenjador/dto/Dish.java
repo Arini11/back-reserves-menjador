@@ -38,25 +38,30 @@ public class Dish {
 	private @Getter @Setter byte[] image;
 	private @Getter @Setter int popularity;
 
-	@JsonIgnore
-	@Exclude
-	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	//creacion tabla NM intermedia
 	@JoinTable(name = "categories_dishes", 
 			joinColumns = { @JoinColumn(name = "dish") },
 			inverseJoinColumns = { @JoinColumn(name = "category") })
+	
+	//creacion atributo de categorias que puede tener ese plato(asignadas a traves
+	//de la tabla categories_dishes;
+	@JsonIgnore
+	@Exclude
+	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	private @Getter @Setter List<Category> categories;
 
-	
-	//esta tabla podria crearse en dishes o en order, desde dish acceder a 
-	//sus comandas o desde comanda ver que platos hay?
-	
+	//creacion tabla intermedia NM - valorar si aqui o en Order
+//	@JoinTable(name="dishes_orders",
+//			joinColumns = {@JoinColumn(name="dish")},
+//			inverseJoinColumns = {@JoinColumn(name = "order")})
+//	@JsonIgnore
+//	@Exclude
+//	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+//	private @Getter @Setter List<Order> orders;
+//	
 	@JsonIgnore
 	@Exclude
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "dish")
 	private @Getter @Setter List<DishesOrders> dishesOrders;
-
-	public Dish(int id) {
-		this.id = id;
-	}
-
+	
 }
