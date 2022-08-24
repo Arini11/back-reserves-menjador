@@ -12,57 +12,71 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import team5.proyecto.reservesMenjador.dto.Category;
 import team5.proyecto.reservesMenjador.dto.Dish;
-import team5.proyecto.reservesMenjador.services.IDishService;
+import team5.proyecto.reservesMenjador.dto.Order;
+import team5.proyecto.reservesMenjador.services.DishServiceImpl;
 
 @RestController
 @RequestMapping("/api")
 public class DishController {
 
 	@Autowired
-	private IDishService dishesServiceImpl;
+	DishServiceImpl dishServiceImpl;
 
 	@GetMapping("/dishes")
 	public List<Dish> getDishes() {
-		return dishesServiceImpl.getDishes();
+		return dishServiceImpl.getDishes();
 	}
 
 	@GetMapping("/dishes/{id}")
-	public Dish findDishById(@PathVariable(name = "id") int id) {
-		return dishesServiceImpl.findDishById(id);
+	public Dish findById(@PathVariable(name = "id") int id) {
+		return dishServiceImpl.findById(id);
+	}
+	
+	@GetMapping("/dishes/name/{name}")
+	public Dish findByName(@PathVariable(name = "name") String name) {
+		return dishServiceImpl.findByName(name);
+	}
+	
+	@GetMapping("/dishes/popularity/{popularity}")
+	public List<Dish> findByPopularity(@PathVariable(name = "popularity") int popularity) {
+		return dishServiceImpl.findByPopularity(popularity);
+	}
+	
+	@GetMapping("/dishes/orders")
+	public List<Dish> findByOrders(@RequestBody Order order) {
+		return dishServiceImpl.findByOrders(order);
+	}	
+	
+	@GetMapping("/dishes/categories")
+	public List<Dish> findByCategories(@RequestBody Category category) {
+		return dishServiceImpl.findByCategories(category);
 	}
 
 	@DeleteMapping("/dishes/{id}")
-	public void deleteDish(@PathVariable(name = "id") int id) {
-		dishesServiceImpl.deleteDish(id);
+	public String deleteDish(@PathVariable(name = "id") int id) {
+		dishServiceImpl.deleteDish(id);
+		return "El plato con id "+id+" ha sido borrado!";
 	}
 
 	@PostMapping("/dishes") // crear
 	public String saveDish(@RequestBody Dish dish) {
-		// validar datos que entran por body, que no se repita el nombre
-		boolean exists = false;
-
-		for (Dish iterateDish : dishesServiceImpl.getDishes()) {
-			if (iterateDish.getNameD().equals(dish.getNameD())) {
-				exists = true;
-			}
-		}
-		if (!exists) {
-			dishesServiceImpl.saveDish(dish);
-			return "Plato guardado!";
-		}
-		return "El plato ya existe!";
+		//en ServiceImpl comprobamos que no exista ya ese nombre de plato
+		return dishServiceImpl.saveDish(dish);
 	}
 
+	//pasa lo mismo que en category, save() ya te actualiza si le das un id que existe
+	//se podria quitar directamente? PREGUNTAR
 	@PutMapping("/dishes/{id}")
-	public Dish updateDish(@PathVariable(name = "id") int id, @RequestBody Dish dish) {
-		Dish dishSelected = dishesServiceImpl.findDishById(id);
+	public String updateDish(@PathVariable(name = "id") int id, @RequestBody Dish dish) {
+		Dish dishSelected = dishServiceImpl.findById(id);
 
 		dishSelected.setNameD(dish.getNameD());
 		dishSelected.setImage(dish.getImage());
 		dishSelected.setPopularity(dish.getPopularity());
 
-		return dishesServiceImpl.saveDish(dishSelected);
+		return dishServiceImpl.saveDish(dishSelected);
 	}
 
 }
