@@ -11,7 +11,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name = "Roles")
+@Table(name = "roles")
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,13 +19,12 @@ public class Roles {
 
 	//ATRIBUTOS TABLA ROLES
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private @Getter @Setter int Id;
-	private @Getter @Setter String Nombre;
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+	private @Getter @Setter int id;
+	private @Getter @Setter String name;
 	
 	@JsonIgnore 
-	@OneToMany (fetch = FetchType.LAZY, mappedBy = "roles")
+	@OneToMany (fetch = FetchType.LAZY, mappedBy = "role")
 	private @Getter @Setter List <Users> users;
 	
 	
