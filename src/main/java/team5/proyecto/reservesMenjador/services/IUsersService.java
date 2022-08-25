@@ -10,12 +10,12 @@ public interface IUsersService {
 	public Users saveUser (Users users);
 	
 	//READ
-	public Users userById (Long Id);
+	public Users userByUsername (String username);
 	
 	//UPDATE
 	public Users updateUser (Users users);
 	
 	//DELETE
-	public void deleteUser (Long Id);
+	public void deleteUser (Users user);
 	
 }

@@ -29,7 +29,7 @@ public class DishController {
 
 	@GetMapping("/dishes/{id}")
 	public Dish findDishById(@PathVariable(name = "id") int id) {
-		return dishesServiceImpl.findDishById(id);
+		return dishesServiceImpl.findById(id);
 	}
 
 	@DeleteMapping("/dishes/{id}")
@@ -43,7 +43,7 @@ public class DishController {
 		boolean exists = false;
 
 		for (Dish iterateDish : dishesServiceImpl.getDishes()) {
-			if (iterateDish.getNameD().equals(dish.getNameD())) {
+			if (iterateDish.getName().equals(dish.getName())) {
 				exists = true;
 			}
 		}
@@ -56,9 +56,9 @@ public class DishController {
 
 	@PutMapping("/dishes/{id}")
 	public Dish updateDish(@PathVariable(name = "id") int id, @RequestBody Dish dish) {
-		Dish dishSelected = dishesServiceImpl.findDishById(id);
+		Dish dishSelected = dishesServiceImpl.findById(id);
 
-		dishSelected.setNameD(dish.getNameD());
+		dishSelected.setName(dish.getName());
 		dishSelected.setImage(dish.getImage());
 		dishSelected.setPopularity(dish.getPopularity());
 

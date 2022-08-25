@@ -39,7 +39,7 @@ public class DishServiceImpl implements IDishService {
 
 	@Override
 	public Dish findByName(String name) {
-		return iDishesDao.findByNameD(name);
+		return iDishesDao.findByName(name);
 	}
 
 	@Override

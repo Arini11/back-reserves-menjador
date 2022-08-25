@@ -26,14 +26,11 @@ import lombok.ToString.Exclude;
 @AllArgsConstructor
 public class Category {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private @Getter @Setter int id;
 
-	private @Getter @Setter String nameC;
+	private @Getter @Setter String name;
 
-	@JsonIgnore
-	@Exclude
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "categories")
+	@JsonIgnore	@Exclude @ManyToMany(fetch = FetchType.LAZY, mappedBy = "categories")
 	private @Getter @Setter List<Dish> dishes;
 }

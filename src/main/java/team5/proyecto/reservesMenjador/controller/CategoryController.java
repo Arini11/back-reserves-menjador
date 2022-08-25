@@ -31,7 +31,7 @@ public class CategoryController {
 
 	@GetMapping("/categories/{id}")
 	public Category findByID(@PathVariable(name="id") int id) {
-		return catServImpl.findCategoryById(id);
+		return catServImpl.findById(id);
 	}
 	
 //	@GetMapping("/categories/nombre/{nombre}")
@@ -50,7 +50,7 @@ public class CategoryController {
 		boolean exists = false;
 		
 		for (Category c : catServImpl.getCategories()) {
-			if(c.getNameC().equals(category.getNameC())) {
+			if(c.getName().equals(category.getName())) {
 				exists = true;
 			}
 		}
@@ -64,16 +64,16 @@ public class CategoryController {
 		
 	@PutMapping("/categories/{id}")
 	public Category guardarEmpleado(@PathVariable(name="id") int id, @RequestBody Category category) {
-		Category cat_selec = catServImpl.findCategoryById(id);
+		Category cat_selec = catServImpl.findById(id);
 		
-		cat_selec.setNameC(category.getNameC());	
+		cat_selec.setName(category.getName());	
 		
 		return catServImpl.saveCategory(cat_selec);
 	}
 	
 	@PutMapping("/categories/{id}/dish/{idDish}")
 	public void addDishToCategory(int id, int idDish) {
-		Category category = catServImpl.findCategoryById(id);
+		Category category = catServImpl.findById(id);
 		//category.getDishes().add(new Dish(idDish));
 		catServImpl.saveCategory(category);
 		

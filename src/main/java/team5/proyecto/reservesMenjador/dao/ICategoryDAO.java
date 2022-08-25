@@ -9,7 +9,7 @@ import team5.proyecto.reservesMenjador.dto.Dish;
 
 public interface ICategoryDAO extends JpaRepository<Category,Integer>{
 
-	public Category findByNameC(String name);
+	public Category findByName(String name);
 	
 	public List<Category> findByDishes(Dish dish);
 	
