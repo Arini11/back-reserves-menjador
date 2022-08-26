@@ -69,10 +69,10 @@ public class DishController {
 	//pasa lo mismo que en category, save() ya te actualiza si le das un id que existe
 	//se podria quitar directamente? PREGUNTAR
 	@PutMapping("/dishes/{id}")
+
 	public String updateDish(@PathVariable(name = "id") int id, @RequestBody Dish dish) {
 		Dish dishSelected = dishServiceImpl.findById(id);
-
-		dishSelected.setNameD(dish.getNameD());
+		dishSelected.setName(dish.getName());
 		dishSelected.setImage(dish.getImage());
 		dishSelected.setPopularity(dish.getPopularity());
 

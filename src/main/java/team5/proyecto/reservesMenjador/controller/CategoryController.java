@@ -78,6 +78,7 @@ public class CategoryController {
 	public void addDishToCategory(int id, int idDish) {
 		Category category = catServImpl.findById(id);
 		//category.getDishes().add(new Dish(idDish)); por eso habia un constructor de plato solo con id - revisar
+		//category.getDishes().add(new Dish(idDish));
 		catServImpl.saveCategory(category);
 		
 	}

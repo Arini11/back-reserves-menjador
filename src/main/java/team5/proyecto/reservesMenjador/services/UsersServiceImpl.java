@@ -25,8 +25,8 @@ public class UsersServiceImpl implements IUsersService {
 	}
 
 	@Override
-	public Users userById(Long Id) {	
-		return iusersDAO.findById(Id).orElse(null);
+	public Users userByUsername(String username) {	
+		return iusersDAO.findByUsername(username);
 	}
 
 	@Override
@@ -35,8 +35,8 @@ public class UsersServiceImpl implements IUsersService {
 	}
 
 	@Override
-	public void deleteUser(Long Id) {
-		iusersDAO.deleteById(Id);
+	public void deleteUser(Users username) {
+		iusersDAO.delete(username);
 	} 
 
 }

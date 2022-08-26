@@ -27,7 +27,7 @@ public class CategoryServiceImpl implements ICategoryService{
 	
 	@Override
     public Category findByName(String name) {
-    	return iCategoriesDao.findByNameC(name);
+    	return iCategoriesDao.findByName(name);
     }
 	
 	@Override
@@ -41,7 +41,7 @@ public class CategoryServiceImpl implements ICategoryService{
 		boolean exists = false;
 		
 		for (Category c : getCategories()) {
-			if(c.getNameC().equals(categ.getNameC())) {
+			if(c.getName().equals(categ.getName())) {
 				exists = true;
 			}
 		}

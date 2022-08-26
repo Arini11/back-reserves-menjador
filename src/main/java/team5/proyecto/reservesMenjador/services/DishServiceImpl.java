@@ -28,7 +28,7 @@ public class DishServiceImpl implements IDishService {
 	
 	@Override
 	public Dish findByName(String name) {
-		return iDishDao.findByNameD(name);
+		return iDishDao.findByName(name);
 	}
 
 	@Override
@@ -52,7 +52,7 @@ public class DishServiceImpl implements IDishService {
 		boolean exists = false;
 
 		for (Dish iterateDish : getDishes()) {
-			if (iterateDish.getNameD().equals(dish.getNameD())) {
+			if (iterateDish.getName().equals(dish.getName())) {
 				exists = true;
 			}
 		}

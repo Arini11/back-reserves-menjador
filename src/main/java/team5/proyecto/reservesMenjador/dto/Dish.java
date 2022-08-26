@@ -30,11 +30,10 @@ import lombok.ToString.Exclude;
 @AllArgsConstructor
 public class Dish {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private @Getter @Setter int id;
 
-	private @Getter @Setter String nameD;
+	private @Getter @Setter String name;
 	private @Getter @Setter byte[] image;
 	private @Getter @Setter int popularity;
 
@@ -45,9 +44,7 @@ public class Dish {
 	
 	//creacion atributo de categorias que puede tener ese plato(asignadas a traves
 	//de la tabla categories_dishes;
-	@JsonIgnore
-	@Exclude
-	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@JsonIgnore	@Exclude @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	private @Getter @Setter List<Category> categories;
 
 	//creacion tabla intermedia NM - valorar si aqui o en Order
@@ -59,9 +56,6 @@ public class Dish {
 //	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 //	private @Getter @Setter List<Order> orders;
 //	
-	@JsonIgnore
-	@Exclude
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "dish")
-	private @Getter @Setter List<DishesOrders> dishesOrders;
-	
+	@JsonIgnore	@Exclude @ManyToMany(fetch = FetchType.LAZY, mappedBy = "dishes")
+	private @Getter @Setter List<Order> orders;
 }

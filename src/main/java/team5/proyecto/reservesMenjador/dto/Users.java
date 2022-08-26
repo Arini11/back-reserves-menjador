@@ -14,21 +14,17 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 @Entity
-@Table(name="Users")
+@Table(name="users")
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public class Users {
-
-	//ATRIBUTOS TABLA USERS
 	
 		@Id
-		@GeneratedValue(strategy = GenerationType.IDENTITY)
-		private @Getter @Setter int id;
 		private @Getter @Setter String username;
 		private @Getter @Setter String email;
 		
-		@ManyToOne @JoinColumn(name="RolesId")
-		private @Getter @Setter Roles rol;
+		@ManyToOne @JoinColumn(name="role_id")
+		private @Getter @Setter Roles role;
 		
 }
