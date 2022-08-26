@@ -25,6 +25,10 @@ public class UsersController {
 	@Autowired UsersServiceImpl userServiceImpl;
 	
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	
+	public UsersController(BCryptPasswordEncoder bCryptPasswordEncoder) {
+		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+	}
 
 	@GetMapping("/users")
 	public List<Users> getUsers() {
