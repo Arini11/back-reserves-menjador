@@ -62,6 +62,10 @@ public class DishServiceImpl implements IDishService {
 		}
 		return "El plato ya existe!";
 	}
+	
+	public Dish updateDish(Dish dish) {
+		return iDishDao.save(dish);
+	}
 
 	@Override
 	public void deleteDish(int id) {
