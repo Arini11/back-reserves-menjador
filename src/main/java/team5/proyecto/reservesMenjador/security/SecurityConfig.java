@@ -1,43 +1,57 @@
 package team5.proyecto.reservesMenjador.security;
 
+import static team5.proyecto.reservesMenjador.security.Constants.LOGIN_URL;
+
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+	private UserDetailsService userDetailsService;
+	
+	@Bean
+	public BCryptPasswordEncoder bCryptPasswordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
+	
 	@Override
     protected void configure(HttpSecurity http) throws Exception {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-        	.csrf().disable().authorizeRequests()
-            .antMatchers("/login").permitAll() //permitimos el acceso a /login a cualquiera
+        	.cors().and()
+        	.csrf().disable()
+        	.authorizeRequests().antMatchers(HttpMethod.POST, LOGIN_URL).permitAll() //permitimos el acceso a /login a cualquiera
             .anyRequest().authenticated() //cualquier otra peticion requiere autenticacion
             .and()
             // Las peticiones /login pasaran previamente por este filtro
-            .addFilterBefore(new LoginFilter("/login", authenticationManager()),
-                    UsernamePasswordAuthenticationFilter.class)
+            .addFilter(new JWTAuthenticationFilter(authenticationManager()))
 
             // Las demás peticiones pasarán por este filtro para validar el token
-            .addFilterBefore(new JwtFilter(),
-                    UsernamePasswordAuthenticationFilter.class);
+            .addFilter(new JWTAuthorizationFilter(authenticationManager()));
     }
 	
+	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        // Creamos una cuenta de usuario por default
-       auth.inMemoryAuthentication()
-               .withUser("root")
-               .password("{noop}root")
-               .roles("ADMIN");
-       
-       auth.inMemoryAuthentication()
-			   .withUser("jone")
-			   .password("{noop}1234")
-			   .roles("USER");
+		// Se define la clase que recupera los usuarios y el algoritmo para procesar las passwords
+		auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
     }
+	
+	@Bean
+	CorsConfigurationSource corsConfigurationSource() {
+		final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
+		return source;
+	}
 }
