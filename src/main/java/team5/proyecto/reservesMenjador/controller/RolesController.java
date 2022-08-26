@@ -30,7 +30,6 @@ public class RolesController {
 	}
 	@GetMapping("/roles/{id}")
 	public Roles rolesById(@PathVariable(name = "id") Long id) {
-		Roles rolSelect = rolesServiceImpl.rolesById(id);
 		return rolesServiceImpl.rolesById(id);
 	}
 	@DeleteMapping("roles/delete/{id}")
