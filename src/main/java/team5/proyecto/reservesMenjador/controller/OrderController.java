@@ -43,7 +43,7 @@ public class OrderController {
 	}
 
 	@GetMapping("/orders/user/{username}")
-	public List<Order> userById(@PathVariable(name = "username") String username) {
+	public List<Order> ordersByUser(@PathVariable(name = "username") String username) {
 		Users userSel = usersServiceImpl.userByUsername(username);
 
 		return orderServ.findByUser(userSel);
