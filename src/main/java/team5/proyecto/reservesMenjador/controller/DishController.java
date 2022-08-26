@@ -57,7 +57,7 @@ public class DishController {
 	@DeleteMapping("/dishes/{id}")
 	public String deleteDish(@PathVariable(name = "id") int id) {
 		dishServiceImpl.deleteDish(id);
-		return "El plato con id "+id+" ha sido borrado!";
+		return "El plato con id "+id+" ha sido descatalogado!";
 	}
 
 	@PostMapping("/dishes") // crear
