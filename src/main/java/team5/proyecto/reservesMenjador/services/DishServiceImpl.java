@@ -65,6 +65,8 @@ public class DishServiceImpl implements IDishService {
 
 	@Override
 	public void deleteDish(int id) {
+		Dish dish = findById(id);
+		
 		iDishDao.deleteById(id);
 	}
 

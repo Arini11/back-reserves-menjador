@@ -36,6 +36,7 @@ public class Dish {
 	private @Getter @Setter String name;
 	private @Getter @Setter byte[] image;
 	private @Getter @Setter int popularity;
+	private @Getter @Setter boolean status;
 
 	//creacion tabla NM intermedia
 	@JoinTable(name = "categories_dishes", 
