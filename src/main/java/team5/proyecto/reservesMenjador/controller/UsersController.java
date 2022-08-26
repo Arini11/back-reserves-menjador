@@ -29,23 +29,17 @@ public class UsersController {
 	public Users saveUser(Users users) {
 		return userServiceImpl.saveUser(users);
 	}
-	@GetMapping("/users/{id}")
+	@GetMapping("/users/{username}")
 	public Users userByUsername(@PathVariable(name = "username")String username) {
-		Users userByUsername = new Users();
-		userByUsername = userServiceImpl.userByUsername(username);
-		return userByUsername;
+		return userServiceImpl.userByUsername(username);
 	}
-	@PutMapping("/users/{id}")
-	 
+	@PutMapping("/users/{username}")
 	public Users updateUser(@PathVariable(name = "username") String username, @RequestBody Users users){
-		Users user_seleccionado = new Users();
-		Users user_actualizado = new Users();
-		user_seleccionado = userServiceImpl.userByUsername(username);
-		user_seleccionado.setUsername(users.getUsername());
-		user_actualizado = userServiceImpl.updateUser(user_seleccionado);
-		
-		return user_actualizado;
+		Users user_seleccionado = userServiceImpl.userByUsername(username);
+		user_seleccionado.setEmail(users.getEmail());
+		return userServiceImpl.updateUser(user_seleccionado);
 	}
+
 	@DeleteMapping("/users/{id}")
 	public void deleteUser(Users username) {
 		userServiceImpl.deleteUser(username);
