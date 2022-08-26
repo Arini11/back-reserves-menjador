@@ -45,7 +45,7 @@ public class CategoryController {
 	}
 	
 	@DeleteMapping("/categories/{id}")
-	public String deleteDepartamento(@PathVariable(name="id") int id) {
+	public String deleteCategory(@PathVariable(name="id") int id) {
 		catServImpl.deleteCategory(id);
 		return "La categoria con id "+id+" ha sido borrada!";
 	}
@@ -58,17 +58,6 @@ public class CategoryController {
 		return catServImpl.saveCategory(category);
 	}
 	
-	/**
-	 * NO NECESARIO - A COMENTAR
-	 * no hace falta findByID(), save ya te actualiza si le pasas por body el id
-	 * que sntido tiene cambiar el nombre? si le cambias ya es otra
-	 * categoria y ya esta - a no ser que sea para corregir fallo
-	@PutMapping("/categories")
-	public String updateCategory(@RequestBody Category category) {
-		return catServImpl.saveCategory(category);
-	}
-	*/
-	
 	/**TODO
 	 * revisar como añadir registros a la tabla intermedia a traves de api
 	 * si fuera en controller, en category o en dish controller?
@@ -78,7 +67,6 @@ public class CategoryController {
 	public void addDishToCategory(int id, int idDish) {
 		Category category = catServImpl.findById(id);
 		//category.getDishes().add(new Dish(idDish)); por eso habia un constructor de plato solo con id - revisar
-		//category.getDishes().add(new Dish(idDish));
 		catServImpl.saveCategory(category);
 		
 	}
