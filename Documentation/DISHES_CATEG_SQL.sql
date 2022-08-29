@@ -57,5 +57,5 @@ select * from orders;
 select * from orders_dishes;
 select * from users;
 
-INSERT INTO Users (username, password, role) VALUES ('admin', '$2a$12$CM0oJo/w9DFsye783cEtU.nel7rCzThAQm1uSZJTVVOqMcoDxedpq','admin');
+INSERT INTO Users (username, password, role_id) VALUES ('admin', '$2a$12$CM0oJo/w9DFsye783cEtU.nel7rCzThAQm1uSZJTVVOqMcoDxedpq',1);
 
