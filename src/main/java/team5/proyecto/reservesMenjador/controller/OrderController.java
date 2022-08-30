@@ -5,8 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import team5.proyecto.reservesMenjador.dto.Dish;
 import team5.proyecto.reservesMenjador.dto.Order;
 import team5.proyecto.reservesMenjador.dto.Users;
+import team5.proyecto.reservesMenjador.services.DishServiceImpl;
 import team5.proyecto.reservesMenjador.services.OrderServiceImpl;
 
 import team5.proyecto.reservesMenjador.services.UsersServiceImpl;
@@ -17,6 +19,9 @@ public class OrderController {
 
 	@Autowired
 	OrderServiceImpl orderServ;
+	
+	@Autowired
+	DishServiceImpl dishServ;
 
 	@Autowired
 	UsersServiceImpl usersServiceImpl;
@@ -28,12 +33,17 @@ public class OrderController {
 
 	@GetMapping("/orders/{id}")
 	public Order getById(@PathVariable(name = "id") int id) {
+		return orderServ.orderById(id);
+	}
+	
+	@GetMapping("/orders/{id}/dishes")
+	public List<Dish> getOrderDishes(@PathVariable(name = "id") int id) {
 		Order o = orderServ.orderById(id);
-		return o != null ? o : new Order();
+		return dishServ.findByOrders(o);
 	}
 
 	@GetMapping("/orders/user/{username}")
-	public List<Order> userById(@PathVariable(name = "username") String username) {
+	public List<Order> ordersByUser(@PathVariable(name = "username") String username) {
 		Users userSel = usersServiceImpl.userByUsername(username);
 
 		return orderServ.findByUser(userSel);

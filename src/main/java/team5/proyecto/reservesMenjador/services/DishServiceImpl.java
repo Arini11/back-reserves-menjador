@@ -14,47 +14,63 @@ import team5.proyecto.reservesMenjador.dto.Order;
 public class DishServiceImpl implements IDishService {
 
 	@Autowired
-	private IDishDAO iDishesDao;
+	private IDishDAO iDishDao;
 
 	@Override
 	public List<Dish> getDishes() {
-		return iDishesDao.findAll();
+		return iDishDao.findAll();
 	}
-
-	@Override
-	public Dish saveDish(Dish dish) {		
-		//FIXME: Controlar duplicidad nombre
-		return iDishesDao.save(dish);
-	}
-
+	
 	@Override
 	public Dish findById(int id) {
-		return iDishesDao.findById(id).orElse(null);
+		return iDishDao.findById(id).orElse(null);
 	}
-
-	@Override
-	public void deleteDish(int id) {
-		iDishesDao.deleteById(id);
-	}
-
+	
 	@Override
 	public Dish findByName(String name) {
-		return iDishesDao.findByName(name);
+		return iDishDao.findByName(name);
 	}
 
 	@Override
 	public List<Dish> findByPopularity(int popularity) {
-		return iDishesDao.findByPopularity(popularity);
+		return iDishDao.findByPopularity(popularity);
 	}
 
 	@Override
 	public List<Dish> findByOrders(Order order) {
-		return iDishesDao.findByOrders(order);
+		return iDishDao.findByOrders(order);
 	}
 
 	@Override
 	public List<Dish> findByCategories(Category category) {
-		return iDishesDao.findByCategories(category);
+		return iDishDao.findByCategories(category);
+	}
+
+	@Override
+	public String saveDish(Dish dish) {		
+	// validar datos que entraran por body, que no se repita el nombre
+		boolean exists = false;
+
+		for (Dish iterateDish : getDishes()) {
+			if (iterateDish.getName().equals(dish.getName())) {
+				exists = true;
+			}
+		}
+		if (!exists) {
+			iDishDao.save(dish);
+			return "Plato guardado!";
+		}
+		return "El plato ya existe!";
+	}
+	
+	public Dish updateDish(Dish dish) {
+		return iDishDao.save(dish);
+	}
+
+	@Override
+	public void deleteDish(int id) {
+		Dish dish = findById(id);
+		dish.setStatus(false);
 	}
 
 }

@@ -16,11 +16,11 @@ public interface IDishService {
 	
 	public List<Dish> findByPopularity(int popularity);
 	
-	public List<Dish> findByOrders(Order order); 
+	public List<Dish> findByOrders(Order order); //va junto con tener la @JoinTable order_dishes
 	
 	public List<Dish> findByCategories(Category category);
 
-	public Dish saveDish(Dish dish); //CREATE || UPDATE
+	public String saveDish(Dish dish); //CREATE || UPDATE
 
 	public void deleteDish(int id);	
 

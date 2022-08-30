@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import team5.proyecto.reservesMenjador.dao.IOrderDAO;
+import team5.proyecto.reservesMenjador.dto.Category;
+import team5.proyecto.reservesMenjador.dto.Dish;
 import team5.proyecto.reservesMenjador.dto.Order;
 import team5.proyecto.reservesMenjador.dto.Users;
 
@@ -31,7 +33,7 @@ public class OrderServiceImpl implements IOrderService {
 
 	@Override
 	public Order orderById(int id) {
-		return orderDAO.findById(id).orElse(null);
+		return orderDAO.findById(id).orElse(new Order());
 	}
 
 	@Override
