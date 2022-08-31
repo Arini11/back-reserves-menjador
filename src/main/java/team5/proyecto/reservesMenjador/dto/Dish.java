@@ -1,5 +1,6 @@
 package team5.proyecto.reservesMenjador.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -37,6 +38,8 @@ public class Dish {
 	private @Getter @Setter byte[] image;
 	private @Getter @Setter int popularity;
 	private @Getter @Setter boolean status;
+	
+	
 
 	//creacion tabla NM intermedia
 	@JoinTable(name = "categories_dishes", 
@@ -45,9 +48,14 @@ public class Dish {
 	
 	//creacion atributo de categorias que puede tener ese plato(asignadas a traves
 	//de la tabla categories_dishes;
-	@JsonIgnore	@Exclude @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-	private @Getter @Setter List<Category> categories;
+	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	private @Getter @Setter List<Category> categories  = new ArrayList<>();
 	
 	@JsonIgnore	@Exclude @ManyToMany(fetch = FetchType.LAZY, mappedBy = "dishes")
-	private @Getter @Setter List<Order> orders;
+	private @Getter @Setter List<Order> orders  = new ArrayList<>();
+
+	public Dish(int id) {
+		super();
+		this.id = id;
+	}
 }

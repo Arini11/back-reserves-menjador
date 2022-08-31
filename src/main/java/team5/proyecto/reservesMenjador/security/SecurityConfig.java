@@ -1,5 +1,6 @@
 package team5.proyecto.reservesMenjador.security;
 
+
 import static team5.proyecto.reservesMenjador.security.Constants.LOGIN_URL;
 
 import org.springframework.context.annotation.Bean;
@@ -66,3 +67,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return source;
 	}
 }
+

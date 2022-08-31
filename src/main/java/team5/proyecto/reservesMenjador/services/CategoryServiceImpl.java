@@ -36,9 +36,9 @@ public class CategoryServiceImpl implements ICategoryService{
 	}
 
 	@Override
-	public String saveCategory(Category categ) {
+	public Category saveCategory(Category categ) {
 	//validar datos, que no se repita el nombre
-		boolean exists = false;
+		/*boolean exists = false;
 		
 		for (Category c : getCategories()) {
 			if(c.getName().equals(categ.getName())) {
@@ -49,7 +49,9 @@ public class CategoryServiceImpl implements ICategoryService{
 			iCategoriesDao.save(categ);
 			return "Categoria guardada!";
 		}
-		return "La categoria ya existe!";			
+		return "La categoria ya existe!";	
+		*/
+		return iCategoriesDao.save(categ);
 	}
 
 	@Override
