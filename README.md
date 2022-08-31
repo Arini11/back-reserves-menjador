@@ -1,5 +1,8 @@
 ![LOGO2](https://user-images.githubusercontent.com/57038668/187762535-ed49632a-2805-4302-9c41-9b13c2a69022.png)
 
+### Documentación API
+https://tch-db.herokuapp.com/swagger-ui/
+
 ### Modelo Relacional
 
 ### Implementación MySQL
