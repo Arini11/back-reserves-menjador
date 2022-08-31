@@ -45,7 +45,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         	.cors().and()
         	.csrf().disable()
         	.authorizeRequests().antMatchers(HttpMethod.POST, LOGIN_URL).permitAll() //permitimos el acceso a /login a cualquiera
-            .anyRequest().authenticated() //cualquier otra peticion requiere autenticacion
+        	.antMatchers("/swagger-ui", "/swagger-ui.html", "/v2/api-docs", "/webjars/**","/swagger-resources/**").permitAll() //permetre swagger
+        	.anyRequest().authenticated() //cualquier otra peticion requiere autenticacion
             .and()
             // Las peticiones /login pasaran previamente por este filtro
             .addFilter(new JWTAuthenticationFilter(authenticationManager()))
