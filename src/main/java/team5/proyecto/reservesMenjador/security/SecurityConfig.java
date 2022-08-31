@@ -42,10 +42,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
     protected void configure(HttpSecurity http) throws Exception {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-        	.cors().and()
-        	.csrf().disable()
-        	.authorizeRequests().antMatchers(HttpMethod.POST, LOGIN_URL).permitAll() //permitimos el acceso a /login a cualquiera
-        	.antMatchers("/swagger-ui", "/swagger-ui.html", "/v2/api-docs", "/webjars/**","/swagger-resources/**").permitAll() //permetre swagger
+        	.cors().and().csrf().disable()
+        	.authorizeRequests()
+        	.antMatchers(HttpMethod.POST, LOGIN_URL).permitAll() //permitimos el acceso a /login a cualquiera
+        	.antMatchers(
+        			"/v2/api-docs",           // swagger
+                    "/webjars/**",            // swagger-ui webjars
+                    "/swagger-resources/**",  // swagger-ui resources
+                    "/swagger-ui/**",  // swagger-ui
+                    "/configuration/**"      // swagger configuration
+        	).permitAll() //permetre swagger
         	.anyRequest().authenticated() //cualquier otra peticion requiere autenticacion
             .and()
             // Las peticiones /login pasaran previamente por este filtro

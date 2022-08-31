@@ -19,13 +19,8 @@ public class SwaggerConfig {
 	public Docket api() {
 		return new Docket(DocumentationType.SWAGGER_2).select()
 				.apis(RequestHandlerSelectors.basePackage("team5.proyecto.reservesMenjador.controller"))
-				.paths(PathSelectors.any()).build().apiInfo(metaData());
+				.paths(PathSelectors.any()).build();
 	}
 
-	private ApiInfo metaData() {
-		return new ApiInfoBuilder().title("Tech Interface - Spring Boot Configuration")
-				.description("\"Swagger configuration for application \"").version("1.1.0")
-				.licenseUrl("https://www.apache.org/licences/LICENSE-2.0\"").contact(new Contact("API", "", ""))
-				.build();
-	}
+
 }
