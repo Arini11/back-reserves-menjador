@@ -23,6 +23,7 @@ public class Users {
 		@Id
 		private @Getter @Setter String username;
 		private @Getter @Setter String email;
+		private @Getter @Setter String password;
 		
 		@ManyToOne @JoinColumn(name="role_id")
 		private @Getter @Setter Roles role;
