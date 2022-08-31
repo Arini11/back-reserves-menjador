@@ -1,10 +1,14 @@
 package team5.proyecto.reservesMenjador.controller;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import team5.proyecto.reservesMenjador.dto.Category;
 import team5.proyecto.reservesMenjador.dto.Dish;
 import team5.proyecto.reservesMenjador.dto.Order;
 import team5.proyecto.reservesMenjador.dto.Users;
@@ -39,7 +43,7 @@ public class OrderController {
 	@GetMapping("/orders/{id}/dishes")
 	public List<Dish> getOrderDishes(@PathVariable(name = "id") int id) {
 		Order o = orderServ.orderById(id);
-		return dishServ.findByOrders(o);
+		return o.getDishes();
 	}
 
 	@GetMapping("/orders/user/{username}")
@@ -47,6 +51,23 @@ public class OrderController {
 		Users userSel = usersServiceImpl.userByUsername(username);
 
 		return orderServ.findByUser(userSel);
+	}
+	
+	@PostMapping("/orders/{id}/dishes/{idDish}")
+	public Order prova(@PathVariable(name = "id")int id, @PathVariable(name = "idDish")int idDish) {
+		Order order = orderServ.orderById(id);
+		Order newOrder = new Order();
+		//category.getDishes().add(new Dish(idDish)); por eso habia un constructor de plato solo con id - revisar
+		List<Dish> dishes = order.getDishes();
+		dishes.add(dishServ.findById(idDish));
+		
+		newOrder.setCreatedOn(order.getCreatedOn());
+		newOrder.setModifiedOn(order.getModifiedOn());
+		newOrder.setDeliveryOn(order.getDeliveryOn());
+		newOrder.setDelivered(order.getDelivered());
+		newOrder.setUser(order.getUser());
+		newOrder.setDishes(dishes);
+        return orderServ.saveOrder(newOrder);
 	}
 
 	@PostMapping("orders/add")

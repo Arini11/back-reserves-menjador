@@ -1,5 +1,6 @@
 package team5.proyecto.reservesMenjador.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -32,5 +33,5 @@ public class Category {
 	private @Getter @Setter String name;
 
 	@JsonIgnore	@Exclude @ManyToMany(fetch = FetchType.LAZY, mappedBy = "categories")
-	private @Getter @Setter List<Dish> dishes;
+	private @Getter @Setter List<Dish> dishes  = new ArrayList<>();
 }

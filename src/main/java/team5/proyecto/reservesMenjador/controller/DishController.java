@@ -1,6 +1,7 @@
 package team5.proyecto.reservesMenjador.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import team5.proyecto.reservesMenjador.dto.Category;
 import team5.proyecto.reservesMenjador.dto.Dish;
 import team5.proyecto.reservesMenjador.dto.Order;
+import team5.proyecto.reservesMenjador.services.CategoryServiceImpl;
 import team5.proyecto.reservesMenjador.services.DishServiceImpl;
 
 @RestController
@@ -23,6 +25,9 @@ public class DishController {
 
 	@Autowired
 	DishServiceImpl dishServiceImpl;
+	
+	@Autowired
+	CategoryServiceImpl catServImpl;
 
 	@GetMapping("/dishes")
 	public List<Dish> getDishes() {
@@ -48,10 +53,10 @@ public class DishController {
 	public List<Dish> findByOrders(@RequestBody Order order) {
 		return dishServiceImpl.findByOrders(order);
 	}	
-	
-	@GetMapping("/dishes/categories")
-	public List<Dish> findByCategories(@RequestBody Category category) {
-		return dishServiceImpl.findByCategories(category);
+		
+	@GetMapping("/dishes/{id}/categories")
+	public List<Category> categoriesOfDish(@PathVariable(name = "id") int id) {
+		return dishServiceImpl.findById(id).getCategories();
 	}
 
 	@DeleteMapping("/dishes/{id}")
@@ -77,6 +82,27 @@ public class DishController {
 		dishSelected.setStatus(dish.isStatus());
 
 		return dishServiceImpl.updateDish(dishSelected);
+	}
+	
+	@PutMapping("/add/dish/categories")
+	public Dish addCategoriesToDish(@RequestBody Dish dish) {
+		System.out.println("----> "+dish);
+		Dish newDish = dishServiceImpl.findById(dish.getId());
+		
+		// S'hauria de treure clear, de moment ho deixo per fer proves
+		newDish.getCategories().clear();
+
+		newDish.getCategories().addAll(
+				dish
+				.getCategories()
+				.stream()
+				.map(c -> {
+					Category cc = catServImpl.findById(c.getId());
+					cc.getDishes().add(newDish);
+					return cc;
+				}).collect(Collectors.toList()));
+		
+		return dishServiceImpl.updateDish(newDish);
 	}
 
 }
