@@ -39,7 +39,7 @@ public class Order {
 	
 	//creacion tabla NM intermedia
 	@JoinTable(name = "orders_dishes", 
-			joinColumns = { @JoinColumn(name = "order") },
+			joinColumns = { @JoinColumn(name = "orders") },
 			inverseJoinColumns = { @JoinColumn(name = "dish") })
 	
 	@JsonIgnore	@Exclude @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
