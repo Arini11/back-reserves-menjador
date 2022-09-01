@@ -4,7 +4,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import team5.proyecto.reservesMenjador.dto.Users;
 
-public interface IUsersDAO extends JpaRepository<Users, Long> {
+public interface IUserDAO extends JpaRepository<Users, String> {
 
-	Users findByUsername(String username);
+	public Users findByUsername(String username);
+	
 }

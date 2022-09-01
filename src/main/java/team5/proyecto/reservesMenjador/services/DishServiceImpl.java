@@ -47,7 +47,7 @@ public class DishServiceImpl implements IDishService {
 	}
 
 	@Override
-	public String saveDish(Dish dish) {		
+	public Dish saveDish(Dish dish) {		
 	// validar datos que entraran por body, que no se repita el nombre
 		boolean exists = false;
 
@@ -57,10 +57,10 @@ public class DishServiceImpl implements IDishService {
 			}
 		}
 		if (!exists) {
-			iDishDao.save(dish);
-			return "Plato guardado!";
+			return iDishDao.save(dish);
+			
 		}
-		return "El plato ya existe!";
+		return null;
 	}
 	
 	public Dish updateDish(Dish dish) {

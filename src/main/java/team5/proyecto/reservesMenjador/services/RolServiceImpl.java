@@ -4,33 +4,28 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import team5.proyecto.reservesMenjador.dao.IRolesDAO;
-import team5.proyecto.reservesMenjador.dto.Roles;
+import team5.proyecto.reservesMenjador.dao.IRolDAO;
+import team5.proyecto.reservesMenjador.dto.Rol;
 
 @Service
-public class RolesServiceImpl implements IRolesService{
+public class RolServiceImpl implements IRolService{
 
 	@Autowired
-	IRolesDAO irolesDAO;
+	IRolDAO irolesDAO;
 
 	@Override
-	public List<Roles> getRoles() {		
+	public List<Rol> getRoles() {		
 		return irolesDAO.findAll();
 	}
 
 	@Override
-	public Roles saveRol(Roles roles) {
+	public Rol saveRol(Rol roles) {
 		return irolesDAO.save(roles);
 	}
 
 	@Override
-	public Roles rolesById(Long Id) {		
+	public Rol findById(Long Id) {		
 		return irolesDAO.findById(Id).orElse(null);
-	}
-
-	@Override
-	public Roles updateRol(Roles roles) {		
-		return irolesDAO.save(roles);
 	}
 
 	@Override

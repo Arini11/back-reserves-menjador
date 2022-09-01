@@ -11,26 +11,26 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import team5.proyecto.reservesMenjador.dto.Roles;
-import team5.proyecto.reservesMenjador.services.RolesServiceImpl;
+import team5.proyecto.reservesMenjador.dto.Rol;
+import team5.proyecto.reservesMenjador.services.RolServiceImpl;
 
 @RestController
 @RequestMapping("/api")
 public class RolesController {
 
-	@Autowired RolesServiceImpl rolesServiceImpl;
+	@Autowired RolServiceImpl rolesServiceImpl;
 
 	@GetMapping("/roles")
-	public List<Roles> getAll(){
+	public List<Rol> getAll(){
 	return rolesServiceImpl.getRoles();
 	}
 	@PostMapping("/roles/add")
-	public Roles saveRol(@RequestBody Roles roles) {
+	public Rol saveRol(@RequestBody Rol roles) {
 		return rolesServiceImpl.saveRol(roles);
 	}
 	@GetMapping("/roles/{id}")
-	public Roles rolesById(@PathVariable(name = "id") Long id) {
-		return rolesServiceImpl.rolesById(id);
+	public Rol rolesById(@PathVariable(name = "id") Long id) {
+		return rolesServiceImpl.findById(id);
 	}
 	@DeleteMapping("roles/delete/{id}")
 	public void deleteRol(Long Id) {

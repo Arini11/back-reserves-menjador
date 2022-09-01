@@ -10,12 +10,9 @@ import team5.proyecto.reservesMenjador.dto.Order;
 
 public interface IDishDAO extends JpaRepository<Dish,Integer>{
 
-	public Dish findByName(String name);
-	
-	public List<Dish> findByPopularity(int popularity);
-	
-	public List<Dish> findByOrders(Order order);
-	
+	public Dish findByName(String name);	
+	public List<Dish> findByPopularity(int popularity);	
+	public List<Dish> findByOrders(Order order);	
 	public List<Dish> findByCategories(Category category);
 	
 }

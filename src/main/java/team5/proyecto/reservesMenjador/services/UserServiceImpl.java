@@ -9,49 +9,43 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import team5.proyecto.reservesMenjador.dao.IUsersDAO;
+import team5.proyecto.reservesMenjador.dao.IUserDAO;
 import team5.proyecto.reservesMenjador.dto.Users;
 
 
 @Service
-public class UsersServiceImpl implements IUsersService,UserDetailsService {
+public class UserServiceImpl implements IUserService,UserDetailsService {
 	
 	@Autowired
-	IUsersDAO iusersDAO;
+	IUserDAO iuserDAO;
 
 	@Override
 	public List<Users> getUsers() {
-		return iusersDAO.findAll();
+		return iuserDAO.findAll();
 	}
 
 	@Override
-	public Users saveUser(Users users) {
-		return iusersDAO.save(users);
+	public Users saveUser(Users user) {
+		return iuserDAO.save(user);
 	}
 
 	@Override
-	public Users userByUsername(String username) {	
-		return iusersDAO.findByUsername(username);
-	}
-
-	@Override
-	public Users updateUser(Users users) {		
-		return iusersDAO.save(users);
+	public Users findByUsername(String username) {	
+		return iuserDAO.findByUsername(username);
 	}
 
 	@Override
 	public void deleteUser(Users username) {
-		iusersDAO.delete(username);
+		iuserDAO.delete(username);
 	}
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		Users user = iusersDAO.findByUsername(username);
+		Users user = iuserDAO.findByUsername(username);
 		if (user == null) {
 			throw new UsernameNotFoundException(username);
 		}
 		return new User(user.getUsername(), user.getPassword(), emptyList());
-	} 
-
+	}
 	
 }

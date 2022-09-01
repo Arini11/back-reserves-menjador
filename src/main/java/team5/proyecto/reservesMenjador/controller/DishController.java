@@ -58,33 +58,29 @@ public class DishController {
 	public List<Category> categoriesOfDish(@PathVariable(name = "id") int id) {
 		return dishServiceImpl.findById(id).getCategories();
 	}
-
-	@DeleteMapping("/dishes/{id}")
-	public String deleteDish(@PathVariable(name = "id") int id) {
-		dishServiceImpl.deleteDish(id);
-		return "El plato con id "+id+" ha sido descatalogado!";
+	
+	@GetMapping("/dishes/categories")
+	public List<Dish> findByCategories(@RequestBody Category category) {
+		return dishServiceImpl.findByCategories(category);
 	}
 
-	@PostMapping("/dishes") // crear
-	public String saveDish(@RequestBody Dish dish) {
+	@DeleteMapping("/dishes/delete/{id}")
+	public void deleteDish(@PathVariable(name = "id") int id) {
+		dishServiceImpl.deleteDish(id);
+	}
+
+	@PostMapping("/dishes/add") // crear
+	public Dish saveDish(@RequestBody Dish dish) {
 		//en ServiceImpl comprobamos que no exista ya ese nombre de plato
 		return dishServiceImpl.saveDish(dish);
 	}
 
-	//pasa lo mismo que en category, save() ya te actualiza si le das un id que existe
-	//se podria quitar directamente? PREGUNTAR
-	@PutMapping("/dishes/{id}")
-	public Dish updateDish(@PathVariable(name = "id") int id, @RequestBody Dish dish) {
-		Dish dishSelected = dishServiceImpl.findById(id);
-		dishSelected.setName(dish.getName());
-		dishSelected.setImage(dish.getImage());
-		dishSelected.setPopularity(dish.getPopularity());
-		dishSelected.setStatus(dish.isStatus());
-
-		return dishServiceImpl.updateDish(dishSelected);
+	@PutMapping("/dishes/update")
+	public Dish updateDish(@RequestBody Dish dish) {
+		return dishServiceImpl.updateDish(dish);
 	}
 	
-	@PutMapping("/add/dish/categories")
+	@PutMapping("/dishes/add/categories")
 	public Dish addCategoriesToDish(@RequestBody Dish dish) {
 		System.out.println("----> "+dish);
 		Dish newDish = dishServiceImpl.findById(dish.getId());
@@ -93,8 +89,7 @@ public class DishController {
 		newDish.getCategories().clear();
 
 		newDish.getCategories().addAll(
-				dish
-				.getCategories()
+				dish.getCategories()
 				.stream()
 				.map(c -> {
 					Category cc = catServImpl.findById(c.getId());

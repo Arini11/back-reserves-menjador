@@ -15,7 +15,7 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class Roles {
+public class Rol {
 
 	//ATRIBUTOS TABLA ROLES
 	
@@ -24,8 +24,7 @@ public class Roles {
 	private @Getter @Setter String name;
 	
 	@JsonIgnore 
-	@OneToMany (fetch = FetchType.LAZY, mappedBy = "role")
-	private @Getter @Setter List <Users> users;
-	
+	@OneToMany (fetch = FetchType.LAZY, mappedBy = "rol")
+	private @Getter @Setter List <Users> users;	
 	
 }

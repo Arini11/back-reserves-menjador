@@ -29,29 +29,23 @@ public class CategoryServiceImpl implements ICategoryService{
 	public Category findByName(String name) {
 		return iCategoriesDao.findByName(name);
     }
-	
-	@Override
-	public List<Category> findByDishes(Dish dish){
-		return iCategoriesDao.findByDishes(dish);
-	}
+
 
 	@Override
 	public Category saveCategory(Category categ) {
 	//validar datos, que no se repita el nombre
 		boolean exists = false;
 		
-		/*for (Category c : getCategories()) {
+		for (Category c : getCategories()) {
 			if(c.getName().equals(categ.getName())) {
 				exists = true;
 			}
 		}
-		if(!exists) {
-			iCategoriesDao.save(categ);
-			return "Categoria guardada!";
+		if(!exists) {			
+			return iCategoriesDao.save(categ);
 		}
-		return "La categoria ya existe!";	
-		*/
-		return iCategoriesDao.save(categ);
+		return null;	
+				
 	}
 	
 
