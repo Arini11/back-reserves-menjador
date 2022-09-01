@@ -42,7 +42,7 @@ public class Order {
 			joinColumns = { @JoinColumn(name = "orders") },
 			inverseJoinColumns = { @JoinColumn(name = "dish") })
 	
-	@JsonIgnore	@Exclude @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@Exclude @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	private @Getter @Setter List<Dish> dishes;
 
 }
