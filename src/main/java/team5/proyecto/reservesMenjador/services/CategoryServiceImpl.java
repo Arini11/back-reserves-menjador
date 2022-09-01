@@ -40,7 +40,7 @@ public class CategoryServiceImpl implements ICategoryService{
 	//validar datos, que no se repita el nombre
 		boolean exists = false;
 		
-		for (Category c : getCategories()) {
+		/*for (Category c : getCategories()) {
 			if(c.getName().equals(categ.getName())) {
 				exists = true;
 			}
@@ -50,7 +50,7 @@ public class CategoryServiceImpl implements ICategoryService{
 			return "Categoria guardada!";
 		}
 		return "La categoria ya existe!";	
-		
+		*/
 		return iCategoriesDao.save(categ);
 	}
 	
