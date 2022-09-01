@@ -26,8 +26,8 @@ public class CategoryServiceImpl implements ICategoryService{
 	}
 	
 	@Override
-    public Category findByName(String name) {
-    	return iCategoriesDao.findByName(name);
+	public Category findByName(String name) {
+		return iCategoriesDao.findByName(name);
     }
 	
 	@Override
@@ -38,7 +38,7 @@ public class CategoryServiceImpl implements ICategoryService{
 	@Override
 	public Category saveCategory(Category categ) {
 	//validar datos, que no se repita el nombre
-		/*boolean exists = false;
+		boolean exists = false;
 		
 		for (Category c : getCategories()) {
 			if(c.getName().equals(categ.getName())) {
@@ -50,9 +50,10 @@ public class CategoryServiceImpl implements ICategoryService{
 			return "Categoria guardada!";
 		}
 		return "La categoria ya existe!";	
-		*/
+		
 		return iCategoriesDao.save(categ);
 	}
+	
 
 	@Override
 	public void deleteCategory(int id) {
