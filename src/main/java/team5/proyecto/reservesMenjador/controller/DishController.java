@@ -49,6 +49,11 @@ public class DishController {
 		return dishServiceImpl.findByPopularity(popularity);
 	}
 	
+	@GetMapping("/dishes/categories")
+	public List<Dish> findByCategories(@RequestBody Category category) {
+		return dishServiceImpl.findByCategories(category);
+	}
+	
 	@GetMapping("/dishes/orders")
 	public List<Dish> findByOrders(@RequestBody Order order) {
 		return dishServiceImpl.findByOrders(order);
