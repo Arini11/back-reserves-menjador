@@ -33,7 +33,7 @@ public class RolesController {
 		return rolesServiceImpl.findById(id);
 	}
 	@DeleteMapping("roles/delete/{id}")
-	public void deleteRol(Long Id) {
+	public void deleteRol(@PathVariable(name = "id")Long Id) {
 		rolesServiceImpl.deleteRol(Id);
 	}
 	
