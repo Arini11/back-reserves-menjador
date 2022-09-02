@@ -25,7 +25,7 @@ public interface IOrderService {
 	
 	public Order updateOrder(Order order);
 
-	public void deleteOrder(int id);
+	public Order deleteOrder(int id);
 
 	public Order addDishesToOrder(Order o);
 	

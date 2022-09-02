@@ -52,26 +52,18 @@ public class OrderController {
 	}
 
 	@PostMapping("orders/add")
-	public Order save(@RequestBody Order order) {
+	public Order addOrder(@RequestBody Order order) {
 		return orderServ.addOrder(order);
 	}
 
-	@PutMapping("orders/update/{id}") //para clientes
-	public Order update(@PathVariable(name = "id") int id, @RequestBody Order order) {
-		//elimino update de createdON ya que no se tiene porq modificar
-		Order orderSel = orderServ.findById(id);
-		orderSel.setModifiedOn(new Date()); //en el momento de hacer un put, es cuando la estas modificando, testear
-		orderSel.setDeliveryOn(order.getDeliveryOn());
-		orderSel.setDelivered(order.getDelivered());//el cliente (metodo aparte que solo modifique Delivered para admin?) 
-		//no tiene porq modificar esto, si esta aqui y no se le da valor en el body se pondra a null y no queremos eso
-		//tampoco haria falta modificar en ningun caso el user de una orden 
-
-		return orderServ.updateOrder(orderSel);
+	@PutMapping("orders/update") //para clientes
+	public Order update(@RequestBody Order order) {
+		return orderServ.updateOrder(order);
 	}
 	
 	@DeleteMapping("orders/delete/{id}")
-	public void delete(@PathVariable(name = "id") int id) {
-		orderServ.deleteOrder(id);
+	public Order delete(@PathVariable(name = "id") int id) {
+		return orderServ.deleteOrder(id);
 	}
 	
 	@PutMapping("/orders/add/dishes")
