@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import org.springframework.lang.NonNull;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,18 +23,19 @@ public class Order {
 	@Id	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private @Getter @Setter int id;
 
-	@Temporal(TemporalType.TIMESTAMP)
+	@NonNull @Temporal(TemporalType.TIMESTAMP)
 	private @Getter @Setter Date createdOn;
 	
-	@Temporal(TemporalType.TIMESTAMP)
+	@NonNull @Temporal(TemporalType.TIMESTAMP)
 	private @Getter @Setter Date modifiedOn;
 	
-	@Temporal(TemporalType.TIMESTAMP)
+	@NonNull @Temporal(TemporalType.TIMESTAMP)
 	private @Getter @Setter Date deliveryOn;
 	
-	private @Getter @Setter char delivered;
+	@NonNull
+	private @Getter @Setter DeliveryStatus delivered;
 	
-	@Exclude @ManyToOne	@JoinColumn(name = "user_id")
+	@NonNull @Exclude @ManyToOne	@JoinColumn(name = "user_id")
 	private @Getter @Setter Users user;
 	
 	//creacion tabla NM intermedia

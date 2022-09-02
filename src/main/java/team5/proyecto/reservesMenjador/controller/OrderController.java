@@ -48,27 +48,10 @@ public class OrderController {
 		Users userSel = usersServiceImpl.findByUsername(username);
 		return orderServ.findByUser(userSel);
 	}
-	
-	@PostMapping("/orders/{id}/dishes/{idDish}")  // post o put mas bien?? funciona? o se ha de replicar lo de dish?
-	public Order prova(@PathVariable(name = "id")int id, @PathVariable(name = "idDish")int idDish) {
-		Order order = orderServ.findById(id);
-		Order newOrder = new Order();
-		//category.getDishes().add(new Dish(idDish)); por eso habia un constructor de plato solo con id - revisar
-		List<Dish> dishes = order.getDishes();
-		dishes.add(dishServ.findById(idDish));
-		
-		newOrder.setCreatedOn(order.getCreatedOn());
-		newOrder.setModifiedOn(order.getModifiedOn());
-		newOrder.setDeliveryOn(order.getDeliveryOn());
-		newOrder.setDelivered(order.getDelivered());
-		newOrder.setUser(order.getUser());
-		newOrder.setDishes(dishes);
-        return orderServ.saveOrder(newOrder);
-	}
 
 	@PostMapping("orders/add")
 	public Order save(@RequestBody Order order) {
-		return orderServ.saveOrder(order);
+		return orderServ.addOrder(order);
 	}
 
 	@PutMapping("orders/update/{id}") //para clientes
@@ -81,12 +64,7 @@ public class OrderController {
 		//no tiene porq modificar esto, si esta aqui y no se le da valor en el body se pondra a null y no queremos eso
 		//tampoco haria falta modificar en ningun caso el user de una orden 
 
-		return orderServ.saveOrder(orderSel);
-	}
-	
-	@PutMapping("orders/update/delivered/admin") //para admin
-	public Order updateDelivered(@RequestBody Order order) { //solo se le pasa por body id y delivered 
-		return orderServ.saveOrder(order);
+		return orderServ.updateOrder(orderSel);
 	}
 	
 

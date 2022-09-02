@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import team5.proyecto.reservesMenjador.dao.IOrderDAO;
+import team5.proyecto.reservesMenjador.dto.DeliveryStatus;
 import team5.proyecto.reservesMenjador.dto.Order;
 import team5.proyecto.reservesMenjador.dto.Users;
 
@@ -49,20 +50,35 @@ public class OrderServiceImpl implements IOrderService {
 		return orderDAO.findByDelivered(status);
 	}
 
-	@Override //save or update
-	public Order saveOrder(Order order) {
-		//la fecha de creacion se podria establecer aqui igual que en delete, new Date() tamb se podria hacer en el constructor de order
-		//this.createdOn = new Date() y no haria falta try/catch
-		//la fecha de modificacion, comprobar cn un if --> si es nuevaorden ponerla a null sino newDate() (mirar orderController metodo put - como
-		//alternativa
-		return orderDAO.save(order);
+	@Override
+	public Order addOrder(Order o) {
+		if(o.getCreatedOn()==null) o.setCreatedOn(getCurrentDateTime());
+		if(o.getModifiedOn()==null) o.setModifiedOn(getDefaultDateTime());
+		if(o.getDeliveryOn()==null) o.setDeliveryOn(getDeliveryDate());
+		if(o.getDelivered()==null) o.setDelivered(DeliveryStatus.P);
+		return orderDAO.save(o);
 	}
 	
+	@Override
+	public Order updateOrder(Order o) {
+		/*Order ordre = findById(o.getId());
+		ordre.setModifiedOn(getCurrentDateTime());
+		ordre.setDeliveryOn(o.getDeliveryOn());
+		ordre.setDelivered(o.getDelivered());
+		return orderDAO.save(ordre);*/
+		return null;
+	}
+
 	@Override
 	public void deleteOrder(int id) {
 		//Quan "eliminem", guardem a modifiedOn la data d'eliminacio, i posem delivered a C (cancelled)
 		Order o = findById(id);
 
+		o.setModifiedOn(getCurrentDateTime());
+		o.setDelivered(DeliveryStatus.C); // Canceled
+	}
+	
+	private Date getCurrentDateTime() {
 		SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String s = LocalDateTime.now().toString();
 		Date d;
@@ -73,9 +89,30 @@ public class OrderServiceImpl implements IOrderService {
 			d = new Date();
 			e.printStackTrace();
 		}
-		
-		o.setModifiedOn(d);
-		o.setDelivered('C'); // Canceled
+		return d;
 	}
+	
+	private Date getDefaultDateTime() {
+		SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String s = "9999-12-31 00:00:00";
+		Date d;
+		try {
+			d = f.parse(s);
+		} catch (ParseException e) {
+			// No petarà mai, però cal posar un try catch
+			d = new Date();
+			e.printStackTrace();
+		}
+		return d;
+	}
+	
+	private Date getDeliveryDate() {
+		Date d = getCurrentDateTime();
+		System.out.println("data"+d);
+		d.setHours(d.getHours()+2);
+		System.out.println("data + 2hores: "+d);
+		return d;
+	}
+
 
 }

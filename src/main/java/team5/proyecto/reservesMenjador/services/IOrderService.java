@@ -21,7 +21,9 @@ public interface IOrderService {
 	
 	public List<Order> findByDelivered(char status);
 
-	public Order saveOrder(Order order); // CREATE || UPDATE
+	public Order addOrder(Order order);
+	
+	public Order updateOrder(Order order);
 
 	public void deleteOrder(int id);
 	
