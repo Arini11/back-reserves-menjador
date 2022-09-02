@@ -49,10 +49,14 @@ public class CategoryController {
 		catServImpl.deleteCategory(id);
 	}
 	
-	@PostMapping("/categories/add") //crear y actualizar
+	@PostMapping("/categories/add") //crear 
 	public Category saveCategory(@RequestBody Category category) {				
 		//validamos que no exista(comprobando nombre) en CategServiceImpl
 		return catServImpl.saveCategory(category);
 	}
 	
+	@PutMapping("/categories/update")//actualizar
+	public Category updateCategory(@RequestBody Category category) {
+		return catServImpl.updateCategory(category);
+	}
 }

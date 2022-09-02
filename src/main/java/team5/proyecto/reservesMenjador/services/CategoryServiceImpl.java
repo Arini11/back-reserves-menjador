@@ -53,5 +53,10 @@ public class CategoryServiceImpl implements ICategoryService{
 	public void deleteCategory(int id) {
 		iCategoriesDao.deleteById(id);
 	}
+
+	@Override
+	public Category updateCategory(Category categ) {
+		return iCategoriesDao.save(categ);
+	}
 	
 }
