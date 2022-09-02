@@ -46,7 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         	.authorizeRequests()
         	.antMatchers(HttpMethod.POST, LOGIN_URL).permitAll() //permitimos el acceso a /login a cualquiera
         	.antMatchers(HttpMethod.POST, "/api/users/add").permitAll()
-        	.antMatchers("/api/categories/**").hasRole("Administrador")
+        	.antMatchers("/api/categories/**").hasRole("Admin")
         	.antMatchers(
         			"/v2/api-docs",           // swagger
                     "/webjars/**",            // swagger-ui webjars
