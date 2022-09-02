@@ -16,13 +16,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import team5.proyecto.reservesMenjador.dto.Users;
-import team5.proyecto.reservesMenjador.services.UsersServiceImpl;
+import team5.proyecto.reservesMenjador.services.UserServiceImpl;
 
 @RestController
 @RequestMapping("/api")
 public class UsersController {
 
-	@Autowired UsersServiceImpl userServiceImpl;
+	@Autowired UserServiceImpl userServiceImpl;
 	
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
@@ -55,17 +55,17 @@ public class UsersController {
 	
 	@GetMapping("/users/{username}")
 	public Users userByUsername(@PathVariable(name = "username")String username) {
-		return userServiceImpl.userByUsername(username);
+		return userServiceImpl.findByUsername(username);
 	}
 	
-	@PutMapping("/users/{username}")
-	public Users updateUser(@PathVariable(name = "username") String username, @RequestBody Users users){
-		Users user_seleccionado = userServiceImpl.userByUsername(username);
-		user_seleccionado.setEmail(users.getEmail());
-		return userServiceImpl.updateUser(user_seleccionado);
+	@PutMapping("/users/update/{username}") 
+	public Users updateUser(@PathVariable(name = "username") String username, @RequestBody Users user){
+		Users user_seleccionado = userServiceImpl.findByUsername(username);
+		user_seleccionado.setEmail(user.getEmail());
+		return userServiceImpl.saveUser(user_seleccionado);
 	}
 
-	@DeleteMapping("/users/{id}")
+	@DeleteMapping("/users/delete/{id}")
 	public void deleteUser(Users username) {
 		userServiceImpl.deleteUser(username);
 	}	

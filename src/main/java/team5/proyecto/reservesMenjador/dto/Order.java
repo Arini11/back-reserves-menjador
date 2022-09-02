@@ -5,7 +5,7 @@ import java.util.List;
 
 import javax.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.lang.NonNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,18 +23,19 @@ public class Order {
 	@Id	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private @Getter @Setter int id;
 
-	@Temporal(TemporalType.TIMESTAMP)
+	@NonNull @Temporal(TemporalType.TIMESTAMP)
 	private @Getter @Setter Date createdOn;
 	
-	@Temporal(TemporalType.TIMESTAMP)
+	@NonNull @Temporal(TemporalType.TIMESTAMP)
 	private @Getter @Setter Date modifiedOn;
 	
-	@Temporal(TemporalType.TIMESTAMP)
+	@NonNull @Temporal(TemporalType.TIMESTAMP)
 	private @Getter @Setter Date deliveryOn;
 	
-	private @Getter @Setter char delivered;
+	@NonNull
+	private @Getter @Setter DeliveryStatus delivered;
 	
-	@Exclude @ManyToOne	@JoinColumn(name = "user_id")
+	@NonNull @Exclude @ManyToOne	@JoinColumn(name = "user_id")
 	private @Getter @Setter Users user;
 	
 	//creacion tabla NM intermedia
@@ -42,7 +43,7 @@ public class Order {
 			joinColumns = { @JoinColumn(name = "orders") },
 			inverseJoinColumns = { @JoinColumn(name = "dish") })
 	
-	@Exclude @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	private @Getter @Setter List<Dish> dishes;
 
 }

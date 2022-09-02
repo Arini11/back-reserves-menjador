@@ -1,5 +1,6 @@
 package team5.proyecto.reservesMenjador.services;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +48,7 @@ public class DishServiceImpl implements IDishService {
 	}
 
 	@Override
-	public String saveDish(Dish dish) {		
+	public Dish saveDish(Dish dish) {		
 	// validar datos que entraran por body, que no se repita el nombre
 		boolean exists = false;
 
@@ -57,20 +58,28 @@ public class DishServiceImpl implements IDishService {
 			}
 		}
 		if (!exists) {
-			iDishDao.save(dish);
-			return "Plato guardado!";
+			return iDishDao.save(dish);
+			
 		}
-		return "El plato ya existe!";
+		return null;
 	}
 	
 	public Dish updateDish(Dish dish) {
-		return iDishDao.save(dish);
+		Dish dishU = findById(dish.getId());
+		
+		dishU.setName(dish.getName()==null ? dishU.getName() : dish.getName());	
+		dishU.setImage(dish.getImage()==null ? dishU.getImage() : dish.getImage());
+		dishU.setPopularity(dish.getPopularity()==0 ? dishU.getPopularity() : dish.getPopularity());
+		dishU.setStatus(dish.isStatus()==false ? dishU.isStatus() : dish.isStatus());
+				
+		return iDishDao.save(dishU);		
 	}
 
 	@Override
-	public void deleteDish(int id) {
+	public Dish deleteDish(int id) {
 		Dish dish = findById(id);
 		dish.setStatus(false);
+		return iDishDao.save(dish);
 	}
 
 }

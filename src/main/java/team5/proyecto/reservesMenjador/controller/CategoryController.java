@@ -44,18 +44,19 @@ public class CategoryController {
 		return catServImpl.findByName(name);
 	}	
 	
-	@DeleteMapping("/categories/{id}")
-	public String deleteCategory(@PathVariable(name="id") int id) {
+	@DeleteMapping("/categories/delete/{id}")
+	public void deleteCategory(@PathVariable(name="id") int id) {
 		catServImpl.deleteCategory(id);
-		return "La categoria con id "+id+" ha sido borrada!";
 	}
 	
-	@PostMapping("/categories") //crear y actualizar
+	@PostMapping("/categories/add") //crear 
 	public Category saveCategory(@RequestBody Category category) {				
 		//validamos que no exista(comprobando nombre) en CategServiceImpl
-		//tanto te crea como te actualiza - no hace falta el metodo Put 
-		//al solo tener nombre e id no tiene sentido que tenga metodo put
 		return catServImpl.saveCategory(category);
 	}
 	
+	@PutMapping("/categories/update")//actualizar
+	public Category updateCategory(@RequestBody Category category) {
+		return catServImpl.updateCategory(category);
+	}
 }
