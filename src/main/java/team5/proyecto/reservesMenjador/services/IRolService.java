@@ -11,9 +11,9 @@ public interface IRolService {
 	public Rol saveRol (Rol roles);
 	
 	//READ
-	public Rol findById (Long Id);
+	public Rol findById (int Id);
 	
 	//DELETE
-	public void deleteRol (Long Id);	
+	public void deleteRol (int Id);	
 	
 }

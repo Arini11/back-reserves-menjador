@@ -29,11 +29,11 @@ public class RolesController {
 		return rolesServiceImpl.saveRol(roles);
 	}
 	@GetMapping("/roles/{id}")
-	public Rol rolesById(@PathVariable(name = "id") Long id) {
+	public Rol rolesById(@PathVariable(name = "id") int id) {
 		return rolesServiceImpl.findById(id);
 	}
 	@DeleteMapping("roles/delete/{id}")
-	public void deleteRol(@PathVariable(name = "id")Long Id) {
+	public void deleteRol(@PathVariable(name = "id")int Id) {
 		rolesServiceImpl.deleteRol(Id);
 	}
 	

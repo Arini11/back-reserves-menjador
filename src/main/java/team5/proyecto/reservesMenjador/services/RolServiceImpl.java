@@ -24,12 +24,12 @@ public class RolServiceImpl implements IRolService{
 	}
 
 	@Override
-	public Rol findById(Long Id) {		
+	public Rol findById(int Id) {		
 		return irolesDAO.findById(Id).orElse(null);
 	}
 
 	@Override
-	public void deleteRol(Long Id) {
+	public void deleteRol(int Id) {
 		irolesDAO.deleteById(Id);		
 	}	
 	
