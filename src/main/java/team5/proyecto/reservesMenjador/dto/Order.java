@@ -40,7 +40,7 @@ public class Order {
 			joinColumns = { @JoinColumn(name = "orders") },
 			inverseJoinColumns = { @JoinColumn(name = "dish") })
 	
-	@Exclude @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	private @Getter @Setter List<Dish> dishes;
 
 }
