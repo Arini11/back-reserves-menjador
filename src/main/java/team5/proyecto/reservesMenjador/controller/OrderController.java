@@ -2,10 +2,12 @@ package team5.proyecto.reservesMenjador.controller;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import team5.proyecto.reservesMenjador.dto.Category;
 import team5.proyecto.reservesMenjador.dto.Dish;
 import team5.proyecto.reservesMenjador.dto.Order;
 import team5.proyecto.reservesMenjador.dto.Users;
@@ -67,9 +69,26 @@ public class OrderController {
 		return orderServ.updateOrder(orderSel);
 	}
 	
-
 	@DeleteMapping("orders/delete/{id}")
 	public void delete(@PathVariable(name = "id") int id) {
 		orderServ.deleteOrder(id);
+	}
+	
+	@PutMapping("/orders/add/dishes")
+	public Order addDishesToOrder(@RequestBody Order o) {
+		Order newOrder = orderServ.findById(o.getId());
+		
+		newOrder.getDishes().clear();
+
+		newOrder.getDishes().addAll(
+				o.getDishes()
+				.stream()
+				.map(dish -> {
+					Dish dd = dishServ.findById(dish.getId());
+					dd.getOrders().add(newOrder);
+					return dd;
+				}).collect(Collectors.toList()));
+		
+		return orderServ.addDishesToOrder(newOrder);
 	}
 }

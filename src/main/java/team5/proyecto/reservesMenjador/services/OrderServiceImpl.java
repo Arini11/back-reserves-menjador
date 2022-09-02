@@ -52,9 +52,8 @@ public class OrderServiceImpl implements IOrderService {
 
 	@Override
 	public Order addOrder(Order o) {
-		if(o.getCreatedOn()==null) o.setCreatedOn(getCurrentDateTime());
-		if(o.getModifiedOn()==null) o.setModifiedOn(getDefaultDateTime());
-		if(o.getDeliveryOn()==null) o.setDeliveryOn(getDeliveryDate());
+		o.setCreatedOn(getCurrentDateTime());
+		o.setModifiedOn(getDefaultDateTime());
 		if(o.getDelivered()==null) o.setDelivered(DeliveryStatus.P);
 		return orderDAO.save(o);
 	}
@@ -67,6 +66,11 @@ public class OrderServiceImpl implements IOrderService {
 		ordre.setDelivered(o.getDelivered());
 		return orderDAO.save(ordre);*/
 		return null;
+	}
+	
+	@Override
+	public Order addDishesToOrder(Order o) {
+		return orderDAO.save(o);
 	}
 
 	@Override
