@@ -24,6 +24,6 @@ public interface IDishService {
 	
 	public Dish updateDish(Dish dish); //UPDATE
 
-	public void deleteDish(int id);	
+	public Dish deleteDish(int id);	
 
 }
