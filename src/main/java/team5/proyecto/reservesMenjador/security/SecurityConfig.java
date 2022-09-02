@@ -2,7 +2,6 @@ package team5.proyecto.reservesMenjador.security;
 
 
 import static team5.proyecto.reservesMenjador.security.Constants.LOGIN_URL;
-import static team5.proyecto.reservesMenjador.security.Constants.ISSUER_INFO;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -47,7 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         	.authorizeRequests()
         	.antMatchers(HttpMethod.POST, LOGIN_URL).permitAll() //permitimos el acceso a /login a cualquiera
         	.antMatchers(HttpMethod.POST, "/api/users/add").permitAll()
-        	.antMatchers("/api/categories/**").hasRole(ISSUER_INFO)
+        	.antMatchers("/api/categories/**").hasRole("Administrador")
         	.antMatchers(
         			"/v2/api-docs",           // swagger
                     "/webjars/**",            // swagger-ui webjars
