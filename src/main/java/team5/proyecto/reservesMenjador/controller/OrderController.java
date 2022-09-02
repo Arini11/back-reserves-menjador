@@ -61,6 +61,11 @@ public class OrderController {
 		return orderServ.updateOrder(order);
 	}
 	
+	@PutMapping("orders/update/status") //para admin
+	public Order updateStatus(@RequestBody Order order) {
+		return orderServ.updateStatus(order);
+	}
+	
 	@DeleteMapping("orders/delete/{id}")
 	public Order delete(@PathVariable(name = "id") int id) {
 		return orderServ.deleteOrder(id);

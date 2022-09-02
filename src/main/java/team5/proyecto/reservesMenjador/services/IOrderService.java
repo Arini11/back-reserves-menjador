@@ -24,6 +24,8 @@ public interface IOrderService {
 	public Order addOrder(Order order);
 	
 	public Order updateOrder(Order order);
+	
+	public Order updateStatus(Order order);
 
 	public Order deleteOrder(int id);
 

@@ -73,6 +73,7 @@ public class OrderServiceImpl implements IOrderService {
         return orderDAO.save(ordre);
 	}
 	
+	@Override
 	public Order updateStatus(Order o) {
         Order ordre = findById(o.getId());
         ordre.setModifiedOn(getCurrentDateTime());
