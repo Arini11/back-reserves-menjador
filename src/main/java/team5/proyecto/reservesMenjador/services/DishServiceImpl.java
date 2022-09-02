@@ -1,5 +1,6 @@
 package team5.proyecto.reservesMenjador.services;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,7 +65,14 @@ public class DishServiceImpl implements IDishService {
 	}
 	
 	public Dish updateDish(Dish dish) {
-		return iDishDao.save(dish);
+		Dish dishU = findById(dish.getId());
+		
+		dishU.setName(dish.getName()==null ? dishU.getName() : dish.getName());	
+		dishU.setImage(dish.getImage()==null ? dishU.getImage() : dish.getImage());
+		dishU.setPopularity(dish.getPopularity()==0 ? dishU.getPopularity() : dish.getPopularity());
+		dishU.setStatus(dish.isStatus()==false ? dishU.isStatus() : dish.isStatus());
+				
+		return iDishDao.save(dishU);		
 	}
 
 	@Override
