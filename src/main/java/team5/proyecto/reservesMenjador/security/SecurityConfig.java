@@ -51,7 +51,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     "/webjars/**",            // swagger-ui webjars
                     "/swagger-resources/**",  // swagger-ui resources
                     "/swagger-ui/**",  // swagger-ui
-                    "/configuration/**"      // swagger configuration
+                    "/configuration/**",      // swagger configuration
+                    "/api/orders/**"
         	).permitAll() //permetre swagger
         	.anyRequest().authenticated() //cualquier otra peticion requiere autenticacion
             .and()
