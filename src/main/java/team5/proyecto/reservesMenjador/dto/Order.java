@@ -32,7 +32,7 @@ public class Order {
 	@NonNull @Temporal(TemporalType.TIMESTAMP)
 	private @Getter @Setter Date deliveryOn;
 	
-	@NonNull
+	@NonNull @Enumerated(EnumType.STRING)
 	private @Getter @Setter DeliveryStatus delivered;
 	
 	@NonNull @Exclude @ManyToOne	@JoinColumn(name = "user_id")
