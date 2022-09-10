@@ -45,14 +45,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         	.cors().and().csrf().disable()
         	.authorizeRequests()
         	.antMatchers(HttpMethod.POST, LOGIN_URL).permitAll() //permitimos el acceso a /login a cualquiera
-        	.antMatchers(HttpMethod.POST, "api/users/add").permitAll()
+        	.antMatchers(HttpMethod.POST, "/api/users/add").permitAll()
         	.antMatchers(
         			"/v2/api-docs",           // swagger
                     "/webjars/**",            // swagger-ui webjars
                     "/swagger-resources/**",  // swagger-ui resources
                     "/swagger-ui/**",  // swagger-ui
-                    "/configuration/**",      // swagger configuration
-                    "/api/users/add"
+                    "/configuration/**"      // swagger configuration
         	).permitAll() //permetre swagger
         	.anyRequest().authenticated() //cualquier otra peticion requiere autenticacion
             .and()
@@ -71,8 +70,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Bean
 	CorsConfigurationSource corsConfigurationSource() {
-		final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
+		CorsConfiguration config = new CorsConfiguration();
+        config.applyPermitDefaultValues();
+        config.setAllowCredentials(true);// this line is important it sends only specified domain instead of *
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        config.addAllowedOrigin("*");
+        config.addAllowedHeader("*");
+        config.addAllowedMethod("OPTIONS");
+        config.addAllowedMethod("HEAD");
+        config.addAllowedMethod("GET");
+        config.addAllowedMethod("PUT");
+        config.addAllowedMethod("POST");
+        config.addAllowedMethod("DELETE");
+        config.addAllowedMethod("PATCH");
+		source.registerCorsConfiguration("/**", config);
 		return source;
 	}
 }
