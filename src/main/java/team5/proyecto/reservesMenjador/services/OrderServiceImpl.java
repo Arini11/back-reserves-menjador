@@ -5,12 +5,15 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import team5.proyecto.reservesMenjador.dao.IDishDAO;
 import team5.proyecto.reservesMenjador.dao.IOrderDAO;
 import team5.proyecto.reservesMenjador.dto.DeliveryStatus;
+import team5.proyecto.reservesMenjador.dto.Dish;
 import team5.proyecto.reservesMenjador.dto.Order;
 import team5.proyecto.reservesMenjador.dto.Users;
 
@@ -19,6 +22,9 @@ public class OrderServiceImpl implements IOrderService {
 
 	@Autowired
 	IOrderDAO orderDAO;
+	
+	@Autowired
+	IDishService dishServ;
 
 	@Override
 	public List<Order> getOrders() {
@@ -70,6 +76,18 @@ public class OrderServiceImpl implements IOrderService {
 		Order ordre = findById(o.getId());
         ordre.setModifiedOn(getCurrentDateTime());
         ordre.setDeliveryOn(o.getDeliveryOn());
+        
+        ordre.getDishes().clear();
+
+        ordre.getDishes().addAll(
+				o.getDishes()
+				.stream()
+				.map(dish -> {
+					Dish dd = dishServ.findById(dish.getId());
+					dd.getOrders().add(ordre);
+					return dd;
+				}).collect(Collectors.toList()));
+		
         return orderDAO.save(ordre);
 	}
 	
