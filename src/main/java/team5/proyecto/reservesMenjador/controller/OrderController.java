@@ -1,5 +1,6 @@
 package team5.proyecto.reservesMenjador.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -49,14 +50,14 @@ public class OrderController {
 	@GetMapping("/orders/user/{username}")
 	public List<Order> ordersByUser(@PathVariable(name = "username") String username) {
 		Users userSel = usersServiceImpl.findByUsername(username);
-		List<Order> orders = orderServ.findByUser(userSel);
 		// No retornar les ordres cancelades
-		orders.forEach( o -> {
-			if(o.getDelivered() == DeliveryStatus.C) {
-				orders.remove(o);
+		List<Order> newOrders = new ArrayList<Order>();
+		orderServ.findByUser(userSel).forEach( o -> {
+			if(o.getDelivered() != DeliveryStatus.C) {
+				newOrders.add(o);
 			}
 		});
-		return orders;
+		return newOrders;
 	}
 
 	@PostMapping("orders/add")
