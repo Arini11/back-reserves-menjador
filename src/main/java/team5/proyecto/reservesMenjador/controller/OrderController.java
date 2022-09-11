@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import team5.proyecto.reservesMenjador.dto.Category;
+import team5.proyecto.reservesMenjador.dto.DeliveryStatus;
 import team5.proyecto.reservesMenjador.dto.Dish;
 import team5.proyecto.reservesMenjador.dto.Order;
 import team5.proyecto.reservesMenjador.dto.Users;
@@ -48,7 +49,14 @@ public class OrderController {
 	@GetMapping("/orders/user/{username}")
 	public List<Order> ordersByUser(@PathVariable(name = "username") String username) {
 		Users userSel = usersServiceImpl.findByUsername(username);
-		return orderServ.findByUser(userSel);
+		List<Order> orders = orderServ.findByUser(userSel);
+		// No retornar les ordres cancelades
+		orders.forEach( o -> {
+			if(o.getDelivered() == DeliveryStatus.C) {
+				orders.remove(o);
+			}
+		});
+		return orders;
 	}
 
 	@PostMapping("orders/add")
