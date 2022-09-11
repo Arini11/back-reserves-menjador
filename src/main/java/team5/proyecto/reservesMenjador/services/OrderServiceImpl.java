@@ -97,13 +97,13 @@ public class OrderServiceImpl implements IOrderService {
 	}
 	
 	private Date getCurrentDateTime() {
-		SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 		String s = LocalDateTime.now().toString();
 		Date d;
 		try {
 			d = f.parse(s);
 		} catch (ParseException e) {
-			// No petarà mai, però cal posar un try catch
+			System.out.println("HA PETAT");
 			d = new Date();
 			e.printStackTrace();
 		}
@@ -126,9 +126,7 @@ public class OrderServiceImpl implements IOrderService {
 	
 	private Date getDeliveryDate() {
 		Date d = getCurrentDateTime();
-		System.out.println("data"+d);
 		d.setHours(d.getHours()+2);
-		System.out.println("data + 2hores: "+d);
 		return d;
 	}
 
