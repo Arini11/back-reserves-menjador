@@ -75,21 +75,20 @@ public class DishController {
 		return dishServiceImpl.saveDish(dish);
 	}
 
-	@PutMapping("/dishes/update")
-	public Dish updateDish(@RequestBody Dish dish) {
-		return dishServiceImpl.updateDish(dish);
+	@PutMapping("/dishes/update/{id}")
+	public Dish updateDish(@PathVariable(name = "id") int id) {
+		return dishServiceImpl.updateDish(id);
 	}
 	
-	@PutMapping("/dishes/add/categories")
-	public Dish addCategoriesToDish(@RequestBody Dish dish) {
-		System.out.println("----> "+dish);
-		Dish newDish = dishServiceImpl.findById(dish.getId());
+	@PutMapping("/dishes/{id}/add/categories")
+	public Dish addCategoriesToDish(@PathVariable(name = "id") int id) {
+		Dish newDish = dishServiceImpl.findById(id);
 		
 		// S'hauria de treure clear, de moment ho deixo per fer proves
-		newDish.getCategories().clear();
+		//newDish.getCategories().clear();
 
 		newDish.getCategories().addAll(
-				dish.getCategories()
+				newDish.getCategories()
 				.stream()
 				.map(c -> {
 					Category cc = catServImpl.findById(c.getId());
@@ -97,7 +96,7 @@ public class DishController {
 					return cc;
 				}).collect(Collectors.toList()));
 		
-		return dishServiceImpl.updateDish(newDish);
+		return dishServiceImpl.updateDish(id);
 	}
 
 }

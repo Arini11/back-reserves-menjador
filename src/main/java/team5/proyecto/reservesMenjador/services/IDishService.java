@@ -22,7 +22,7 @@ public interface IDishService {
 
 	public Dish saveDish(Dish dish); //CREATE 
 	
-	public Dish updateDish(Dish dish); //UPDATE
+	public Dish updateDish(int id); //UPDATE
 
 	public Dish deleteDish(int id);	
 

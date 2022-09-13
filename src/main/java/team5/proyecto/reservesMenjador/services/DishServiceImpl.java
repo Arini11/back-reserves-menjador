@@ -64,13 +64,13 @@ public class DishServiceImpl implements IDishService {
 		return null;
 	}
 	
-	public Dish updateDish(Dish dish) {
-		Dish dishU = findById(dish.getId());
+	public Dish updateDish(int id) {
+		Dish dishU = findById(id);
 		
-		dishU.setName(dish.getName()==null ? dishU.getName() : dish.getName());	
-		dishU.setImage(dish.getImage()==null ? dishU.getImage() : dish.getImage());
-		dishU.setPopularity(dish.getPopularity()==0 ? dishU.getPopularity() : dish.getPopularity());
-		dishU.setStatus(dish.isStatus()==false ? dishU.isStatus() : dish.isStatus());
+		dishU.setName(dishU.getName());	
+		dishU.setImage(dishU.getImage());
+		dishU.setPopularity(dishU.getPopularity());
+		dishU.setStatus(dishU.isStatus());
 				
 		return iDishDao.save(dishU);		
 	}
