@@ -71,6 +71,7 @@ public class DishServiceImpl implements IDishService {
 		dishU.setImage(dish.getImage()==null ? dishU.getImage() : dish.getImage());
 		dishU.setPopularity(dish.getPopularity()==0 ? dishU.getPopularity() : dish.getPopularity());
 		dishU.setStatus(dish.isStatus()==false ? dishU.isStatus() : dish.isStatus());
+		dishU.setCategories(dish.getCategories());
 				
 		return iDishDao.save(dishU);		
 	}
