@@ -1,11 +1,13 @@
 package team5.proyecto.reservesMenjador.services;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import team5.proyecto.reservesMenjador.dao.ICategoryDAO;
 import team5.proyecto.reservesMenjador.dao.IDishDAO;
 import team5.proyecto.reservesMenjador.dto.Category;
 import team5.proyecto.reservesMenjador.dto.Dish;
@@ -16,6 +18,9 @@ public class DishServiceImpl implements IDishService {
 
 	@Autowired
 	private IDishDAO iDishDao;
+	
+	@Autowired
+	private ICategoryDAO iCategoryDAO;
 
 	@Override
 	public List<Dish> getDishes() {
@@ -71,7 +76,13 @@ public class DishServiceImpl implements IDishService {
 		dishU.setImage(dish.getImage()==null ? dishU.getImage() : dish.getImage());
 		dishU.setPopularity(dish.getPopularity()==0 ? dishU.getPopularity() : dish.getPopularity());
 		dishU.setStatus(dish.isStatus()==false ? dishU.isStatus() : dish.isStatus());
-		dishU.setCategories(dish.getCategories());
+		
+		List<Category> newCategories = new ArrayList<Category>();
+		for(Category c : dish.getCategories()) {
+			Category cat = iCategoryDAO.findById(c.getId()).orElse(null);
+			newCategories.add(cat);
+		}
+		dishU.setCategories(newCategories);
 				
 		return iDishDao.save(dishU);		
 	}
