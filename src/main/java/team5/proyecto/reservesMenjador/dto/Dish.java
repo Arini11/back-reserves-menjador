@@ -37,7 +37,7 @@ public class Dish {
 	private @Getter @Setter byte[] image;
 	private @Getter @Setter int popularity;
 	private @Getter @Setter boolean status;
-	
+	private @Getter @Setter String descripcion;
 	
 
 	//creacion tabla NM intermedia

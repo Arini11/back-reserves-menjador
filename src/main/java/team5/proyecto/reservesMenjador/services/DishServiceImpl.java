@@ -73,6 +73,7 @@ public class DishServiceImpl implements IDishService {
 		Dish dishU = findById(dish.getId());
 		
 		dishU.setName(dish.getName()==null ? dishU.getName() : dish.getName());	
+		dishU.setDescripcion(dish.getDescripcion()==null ? dishU.getDescripcion() : dish.getDescripcion());	
 		dishU.setImage(dish.getImage()==null ? dishU.getImage() : dish.getImage());
 		dishU.setPopularity(dish.getPopularity()==0 ? dishU.getPopularity() : dish.getPopularity());
 		dishU.setStatus(dish.isStatus()==false ? dishU.isStatus() : dish.isStatus());
