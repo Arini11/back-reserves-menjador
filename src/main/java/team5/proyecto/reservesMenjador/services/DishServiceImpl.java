@@ -63,6 +63,12 @@ public class DishServiceImpl implements IDishService {
 			}
 		}
 		if (!exists) {
+			List<Category> newCategories = new ArrayList<Category>();
+			for(Category c : dish.getCategories()) {
+				Category cat = iCategoryDAO.findById(c.getId()).orElse(null);
+				newCategories.add(cat);
+			}
+			dish.setCategories(newCategories);
 			return iDishDao.save(dish);
 			
 		}
