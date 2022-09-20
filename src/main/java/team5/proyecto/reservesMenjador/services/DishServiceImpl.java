@@ -1,8 +1,11 @@
 package team5.proyecto.reservesMenjador.services;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.zip.Deflater;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +21,7 @@ public class DishServiceImpl implements IDishService {
 
 	@Autowired
 	private IDishDAO iDishDao;
-	
+
 	@Autowired
 	private ICategoryDAO iCategoryDAO;
 
@@ -26,12 +29,12 @@ public class DishServiceImpl implements IDishService {
 	public List<Dish> getDishes() {
 		return iDishDao.findAll();
 	}
-	
+
 	@Override
 	public Dish findById(int id) {
 		return iDishDao.findById(id).orElse(null);
 	}
-	
+
 	@Override
 	public Dish findByName(String name) {
 		return iDishDao.findByName(name);
@@ -53,8 +56,8 @@ public class DishServiceImpl implements IDishService {
 	}
 
 	@Override
-	public Dish saveDish(Dish dish) {		
-	// validar datos que entraran por body, que no se repita el nombre
+	public Dish saveDish(Dish dish) {
+		// validar datos que entraran por body, que no se repita el nombre
 		boolean exists = false;
 
 		for (Dish iterateDish : getDishes()) {
@@ -64,34 +67,35 @@ public class DishServiceImpl implements IDishService {
 		}
 		if (!exists) {
 			List<Category> newCategories = new ArrayList<Category>();
-			for(Category c : dish.getCategories()) {
+			for (Category c : dish.getCategories()) {
 				Category cat = iCategoryDAO.findById(c.getId()).orElse(null);
 				newCategories.add(cat);
 			}
 			dish.setCategories(newCategories);
 			return iDishDao.save(dish);
-			
+
 		}
 		return null;
 	}
-	
-	public Dish updateDish(Dish dish) {
+
+	@Override
+	public Dish updateDish(Dish dish, byte[] imatge) {
 		Dish dishU = findById(dish.getId());
-		
-		dishU.setName(dish.getName()==null ? dishU.getName() : dish.getName());	
-		dishU.setDescripcion(dish.getDescripcion()==null ? dishU.getDescripcion() : dish.getDescripcion());	
-		dishU.setImage(dish.getImage()==null ? dishU.getImage() : dish.getImage());
-		dishU.setPopularity(dish.getPopularity()==0 ? dishU.getPopularity() : dish.getPopularity());
-		dishU.setStatus(dish.isStatus()==false ? dishU.isStatus() : dish.isStatus());
-		
+
+		dishU.setName(dish.getName() == null ? dishU.getName() : dish.getName());
+		dishU.setDescripcion(dish.getDescripcion() == null ? dishU.getDescripcion() : dish.getDescripcion());
+		dishU.setImage(dish.getImage() == null ? dishU.getImage() : compressZLib(imatge));
+		dishU.setPopularity(dish.getPopularity() == 0 ? dishU.getPopularity() : dish.getPopularity());
+		dishU.setStatus(dish.isStatus() == false ? dishU.isStatus() : dish.isStatus());
+
 		List<Category> newCategories = new ArrayList<Category>();
-		for(Category c : dish.getCategories()) {
+		for (Category c : dish.getCategories()) {
 			Category cat = iCategoryDAO.findById(c.getId()).orElse(null);
 			newCategories.add(cat);
 		}
 		dishU.setCategories(newCategories);
-				
-		return iDishDao.save(dishU);		
+
+		return iDishDao.save(dishU);
 	}
 
 	@Override
@@ -100,5 +104,47 @@ public class DishServiceImpl implements IDishService {
 		dish.setStatus(false);
 		return iDishDao.save(dish);
 	}
+
+	// compress the image bytes before storing it in the database
+	public byte[] compressZLib(byte[] data) {
+		Deflater deflater = new Deflater();
+		deflater.setInput(data);
+		deflater.finish();
+
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream(data.length);
+		byte[] buffer = new byte[1024];
+		while (!deflater.finished()) {
+			int count = deflater.deflate(buffer);
+			outputStream.write(buffer, 0, count);
+		}
+		try {
+			outputStream.close();
+		} catch (IOException e) {
+		}
+		System.out.println("Compressed Image Byte Size - " + outputStream.toByteArray().length);
+
+		return outputStream.toByteArray();
+	}
+
+	@Override
+	public Dish updateDish(Dish dish) {
+		Dish dishU = findById(dish.getId());
+
+		dishU.setName(dish.getName() == null ? dishU.getName() : dish.getName());
+		dishU.setDescripcion(dish.getDescripcion() == null ? dishU.getDescripcion() : dish.getDescripcion());
+		//dishU.setImage(dish.getImage() == null ? dishU.getImage() : compressZLib(imatge));
+		dishU.setPopularity(dish.getPopularity() == 0 ? dishU.getPopularity() : dish.getPopularity());
+		dishU.setStatus(dish.isStatus() == false ? dishU.isStatus() : dish.isStatus());
+
+		List<Category> newCategories = new ArrayList<Category>();
+		for (Category c : dish.getCategories()) {
+			Category cat = iCategoryDAO.findById(c.getId()).orElse(null);
+			newCategories.add(cat);
+		}
+		dishU.setCategories(newCategories);
+
+		return iDishDao.save(dishU);
+	}
+
 
 }

@@ -1,5 +1,6 @@
 package team5.proyecto.reservesMenjador.controller;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -11,7 +12,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import team5.proyecto.reservesMenjador.dto.Category;
 import team5.proyecto.reservesMenjador.dto.Dish;
@@ -76,8 +79,14 @@ public class DishController {
 	}
 
 	@PutMapping("/dishes/update")
-	public Dish updateDish(@RequestBody Dish dish) {
-		return dishServiceImpl.updateDish(dish);
+	public Dish updateDish(@RequestParam("imageFile") MultipartFile file, @RequestBody Dish dish) throws IOException {
+		try {
+			System.out.println("Original Image Byte Size - " + file.getBytes().length);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return dishServiceImpl.updateDish(dish, file.getBytes());
 	}
 	
 	@PutMapping("/dishes/add/categories")

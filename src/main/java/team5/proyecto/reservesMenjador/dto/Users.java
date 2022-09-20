@@ -22,6 +22,7 @@ public class Users {
 		private @Getter @Setter String username;
 		private @Getter @Setter String email;
 		private @Getter @Setter String password;
+		private @Getter @Setter byte[] image;
 		
 		@ManyToOne @JoinColumn(name="role_id")
 		private @Getter @Setter Rol rol;
