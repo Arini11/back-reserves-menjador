@@ -45,7 +45,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         	.cors().and().csrf().disable()
         	.authorizeRequests()
         	.antMatchers(HttpMethod.POST, LOGIN_URL).permitAll() //permitimos el acceso a /login a cualquiera
-        	.antMatchers(HttpMethod.POST, "/api/users/add").permitAll()
+        	.antMatchers(HttpMethod.POST, "/api/users/add").permitAll() // permetre registre usuaris
+        	.antMatchers(HttpMethod.GET, "/api/dishes").permitAll() // permetre obtenir plats
+        	.antMatchers(HttpMethod.GET, "/api/categories").permitAll() // permetre obtenir categories
         	.antMatchers(
         			"/v2/api-docs",           // swagger
                     "/webjars/**",            // swagger-ui webjars
