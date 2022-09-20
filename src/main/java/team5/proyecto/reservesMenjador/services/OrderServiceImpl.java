@@ -3,6 +3,7 @@ package team5.proyecto.reservesMenjador.services;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import team5.proyecto.reservesMenjador.dao.IDishDAO;
 import team5.proyecto.reservesMenjador.dao.IOrderDAO;
+import team5.proyecto.reservesMenjador.dto.Category;
 import team5.proyecto.reservesMenjador.dto.DeliveryStatus;
 import team5.proyecto.reservesMenjador.dto.Dish;
 import team5.proyecto.reservesMenjador.dto.Order;
@@ -25,6 +27,9 @@ public class OrderServiceImpl implements IOrderService {
 	
 	@Autowired
 	IDishService dishServ;
+	
+	@Autowired
+	IUserService userServ;
 
 	@Override
 	public List<Order> getOrders() {
@@ -63,11 +68,16 @@ public class OrderServiceImpl implements IOrderService {
 		o.setModifiedOn(getDefaultDateTime());
 		o.setDelivered(DeliveryStatus.P);
 		
-		// Per fer proves, treure-ho després pq sera l'usuari que hagi fer la ordre
-		Users u = new Users();
-		u.setUsername("Cliente1");
-		if(o.getUser().getUsername()==null) o.setUser(u);
-		if(o.getDeliveryOn()==null) o.setDeliveryOn(getDeliveryDate());
+		Users u = userServ.findByUsername(o.getUser().getUsername());
+		o.setUser(u);
+		
+		List<Dish> dishesList = new ArrayList<Dish>();
+		for(Dish d : o.getDishes()) {
+			Dish dd = dishServ.findById(d.getId());
+			dishesList.add(dd);
+		}
+		o.setDishes(dishesList);
+
 		return orderDAO.save(o);
 	}
 	
@@ -139,12 +149,6 @@ public class OrderServiceImpl implements IOrderService {
 			d = new Date();
 			e.printStackTrace();
 		}
-		return d;
-	}
-	
-	private Date getDeliveryDate() {
-		Date d = getCurrentDateTime();
-		d.setHours(d.getHours()+2);
 		return d;
 	}
 
