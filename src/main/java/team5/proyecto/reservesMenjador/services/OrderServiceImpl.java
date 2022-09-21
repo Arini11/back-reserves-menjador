@@ -127,6 +127,7 @@ public class OrderServiceImpl implements IOrderService {
 	private Date getCurrentDateTime() {
 		SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 		String s = LocalDateTime.now().toString();
+		System.out.println("CURRENT DATE TIME: "+LocalDateTime.now().toString());
 		Date d;
 		try {
 			d = f.parse(s);
