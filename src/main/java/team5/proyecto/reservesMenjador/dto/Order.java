@@ -1,5 +1,7 @@
 package team5.proyecto.reservesMenjador.dto;
 
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -23,19 +25,19 @@ public class Order {
 	@Id	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private @Getter @Setter int id;
 
-	@NonNull @Temporal(TemporalType.TIMESTAMP)
-	private @Getter @Setter Date createdOn;
+	@NonNull 
+	private @Getter @Setter OffsetDateTime createdOn;
 	
-	@NonNull @Temporal(TemporalType.TIMESTAMP)
-	private @Getter @Setter Date modifiedOn;
+	@NonNull 
+	private @Getter @Setter OffsetDateTime modifiedOn;
 	
-	@NonNull @Temporal(TemporalType.TIMESTAMP)
-	private @Getter @Setter Date deliveryOn;
+	@NonNull 
+	private @Getter @Setter OffsetDateTime deliveryOn;
 	
 	@NonNull @Enumerated(EnumType.STRING)
 	private @Getter @Setter DeliveryStatus delivered;
 	
-	@NonNull @Exclude @ManyToOne	@JoinColumn(name = "user_id")
+	@NonNull @Exclude @ManyToOne @JoinColumn(name = "user_id")
 	private @Getter @Setter Users user;
 	
 	//creacion tabla NM intermedia
