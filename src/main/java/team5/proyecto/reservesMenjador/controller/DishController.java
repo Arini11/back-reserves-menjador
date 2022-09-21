@@ -45,6 +45,11 @@ public class DishController {
 		return dishServiceImpl.findById(id);
 	}
 	
+	@GetMapping("/dishes/status/{status}")
+	public List<Dish> findByStatus(@PathVariable(name = "status") boolean status) {
+		return dishServiceImpl.findByStatus(status);
+	}
+	
 	@GetMapping("/dishes/name/{name}")
 	public Dish findByName(@PathVariable(name = "name") String name) {
 		return dishServiceImpl.findByName(name);

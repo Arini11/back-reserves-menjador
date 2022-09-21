@@ -47,7 +47,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         	.authorizeRequests()
         	.antMatchers(HttpMethod.POST, LOGIN_URL).permitAll() //permitimos el acceso a /login a cualquiera
         	.antMatchers(HttpMethod.POST, "/api/users/add").permitAll() // permetre registre usuaris
-        	.antMatchers(HttpMethod.GET, "/api/dishes").permitAll() // permetre obtenir plats
+        	.antMatchers(HttpMethod.GET, "/api/dishes/status/**").permitAll() // permetre obtenir plats pel menu amb status true
         	.antMatchers(HttpMethod.GET, "/api/categories").permitAll() // permetre obtenir categories
         	.antMatchers(
         			"/v2/api-docs",           // swagger

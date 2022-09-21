@@ -14,5 +14,6 @@ public interface IDishDAO extends JpaRepository<Dish,Integer>{
 	public List<Dish> findByPopularity(int popularity);	
 	public List<Dish> findByOrders(Order order);	
 	public List<Dish> findByCategories(Category category);
+	public List<Dish> findByStatus(boolean status);
 	
 }

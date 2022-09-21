@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import team5.proyecto.reservesMenjador.dao.IUserDAO;
+import team5.proyecto.reservesMenjador.dto.Dish;
 import team5.proyecto.reservesMenjador.dto.Users;
 
 
@@ -46,6 +47,12 @@ public class UserServiceImpl implements IUserService,UserDetailsService {
 			throw new UsernameNotFoundException(username);
 		}
 		return new User(user.getUsername(), user.getPassword(), emptyList());
+	}
+	
+	public Users updateUserImage(String username, byte[] imatge) {
+		Users u = iuserDAO.findByUsername(username);
+		u.setImage(imatge);
+		return iuserDAO.save(u);
 	}
 	
 }

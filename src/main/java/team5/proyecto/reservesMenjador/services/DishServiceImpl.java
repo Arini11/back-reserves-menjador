@@ -31,6 +31,11 @@ public class DishServiceImpl implements IDishService {
 	public List<Dish> getDishes() {
 		return iDishDao.findAll();
 	}
+	
+	public List<Dish> findByStatus(boolean status) {
+		return iDishDao.findByStatus(status);
+	}
+	
 
 	@Override
 	public Dish findById(int id) {
