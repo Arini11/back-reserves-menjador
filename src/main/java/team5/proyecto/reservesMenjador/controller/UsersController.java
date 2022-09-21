@@ -1,5 +1,6 @@
 package team5.proyecto.reservesMenjador.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +14,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import team5.proyecto.reservesMenjador.dto.Dish;
 import team5.proyecto.reservesMenjador.dto.Users;
 import team5.proyecto.reservesMenjador.services.UserServiceImpl;
 
@@ -69,5 +73,10 @@ public class UsersController {
 	public void deleteUser(Users username) {
 		userServiceImpl.deleteUser(username);
 	}	
+	
+	@PostMapping("/users/update-img/{username}")
+	public Users updateImgUser(@RequestPart(value="file") MultipartFile file, @PathVariable(name = "username")String username) throws IOException {
+		return userServiceImpl.updateUserImage(username,file.getBytes());
+	}
 	
 }
