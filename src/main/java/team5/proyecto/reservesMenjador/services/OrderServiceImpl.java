@@ -72,6 +72,11 @@ public class OrderServiceImpl implements IOrderService {
 		o.setModifiedOn(LocalDateTime.now().atOffset(ZoneOffset.UTC));
 		o.setDelivered(DeliveryStatus.P);
 		
+		System.out.println(LocalDateTime.now().atOffset(ZoneOffset.UTC));
+		System.out.println(o.getCreatedOn());
+		System.out.println(o.getCreatedOn().toInstant());
+		
+		
 		Users u = userServ.findByUsername(o.getUser().getUsername());
 		o.setUser(u);
 		
