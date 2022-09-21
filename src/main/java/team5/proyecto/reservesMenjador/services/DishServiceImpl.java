@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.zip.DataFormatException;
 import java.util.zip.Deflater;
+import java.util.zip.Inflater;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -72,6 +74,7 @@ public class DishServiceImpl implements IDishService {
 				newCategories.add(cat);
 			}
 			dish.setCategories(newCategories);
+			dish.setImage(null); // La imatge no es posa per aquí
 			return iDishDao.save(dish);
 
 		}
@@ -79,23 +82,10 @@ public class DishServiceImpl implements IDishService {
 	}
 
 	@Override
-	public Dish updateDish(Dish dish, byte[] imatge) {
-		Dish dishU = findById(dish.getId());
-
-		dishU.setName(dish.getName() == null ? dishU.getName() : dish.getName());
-		dishU.setDescripcion(dish.getDescripcion() == null ? dishU.getDescripcion() : dish.getDescripcion());
-		dishU.setImage(dish.getImage() == null ? dishU.getImage() : compressZLib(imatge));
-		dishU.setPopularity(dish.getPopularity() == 0 ? dishU.getPopularity() : dish.getPopularity());
-		dishU.setStatus(dish.isStatus() == false ? dishU.isStatus() : dish.isStatus());
-
-		List<Category> newCategories = new ArrayList<Category>();
-		for (Category c : dish.getCategories()) {
-			Category cat = iCategoryDAO.findById(c.getId()).orElse(null);
-			newCategories.add(cat);
-		}
-		dishU.setCategories(newCategories);
-
-		return iDishDao.save(dishU);
+	public Dish updateDishImage(int id, byte[] imatge) {
+		Dish d = iDishDao.findById(id).orElse(null);
+		d.setImage(imatge);
+		return iDishDao.save(d);
 	}
 
 	@Override
@@ -105,34 +95,14 @@ public class DishServiceImpl implements IDishService {
 		return iDishDao.save(dish);
 	}
 
-	// compress the image bytes before storing it in the database
-	public byte[] compressZLib(byte[] data) {
-		Deflater deflater = new Deflater();
-		deflater.setInput(data);
-		deflater.finish();
-
-		ByteArrayOutputStream outputStream = new ByteArrayOutputStream(data.length);
-		byte[] buffer = new byte[1024];
-		while (!deflater.finished()) {
-			int count = deflater.deflate(buffer);
-			outputStream.write(buffer, 0, count);
-		}
-		try {
-			outputStream.close();
-		} catch (IOException e) {
-		}
-		System.out.println("Compressed Image Byte Size - " + outputStream.toByteArray().length);
-
-		return outputStream.toByteArray();
-	}
-
 	@Override
 	public Dish updateDish(Dish dish) {
 		Dish dishU = findById(dish.getId());
 
 		dishU.setName(dish.getName() == null ? dishU.getName() : dish.getName());
 		dishU.setDescripcion(dish.getDescripcion() == null ? dishU.getDescripcion() : dish.getDescripcion());
-		//dishU.setImage(dish.getImage() == null ? dishU.getImage() : compressZLib(imatge));
+		// dishU.setImage(dish.getImage() == null ? dishU.getImage() :
+		// compressZLib(imatge));
 		dishU.setPopularity(dish.getPopularity() == 0 ? dishU.getPopularity() : dish.getPopularity());
 		dishU.setStatus(dish.isStatus() == false ? dishU.isStatus() : dish.isStatus());
 
@@ -145,6 +115,5 @@ public class DishServiceImpl implements IDishService {
 
 		return iDishDao.save(dishU);
 	}
-
 
 }

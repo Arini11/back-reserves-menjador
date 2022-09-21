@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -23,6 +25,7 @@ import team5.proyecto.reservesMenjador.services.CategoryServiceImpl;
 import team5.proyecto.reservesMenjador.services.DishServiceImpl;
 
 @RestController
+@CrossOrigin()
 @RequestMapping("/api")
 public class DishController {
 
@@ -79,22 +82,19 @@ public class DishController {
 	}
 
 	@PutMapping("/dishes/update")
-	public Dish updateDish(@RequestParam("imageFile") MultipartFile file, @RequestBody Dish dish) throws IOException {
-		try {
-			System.out.println("Original Image Byte Size - " + file.getBytes().length);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return dishServiceImpl.updateDish(dish, file.getBytes());
+	public Dish updateDish(@RequestBody Dish dish) throws IOException {
+		return dishServiceImpl.updateDish(dish);
+	}
+	
+	@PostMapping("/dishes/update/{id}")
+	public Dish updateDish(@RequestPart(value="file") MultipartFile file, @PathVariable(name = "id") int id) throws IOException {
+		return dishServiceImpl.updateDishImage(id,file.getBytes());
 	}
 	
 	@PutMapping("/dishes/add/categories")
 	public Dish addCategoriesToDish(@RequestBody Dish dish) {
-		System.out.println("----> "+dish);
 		Dish newDish = dishServiceImpl.findById(dish.getId());
 		
-		// S'hauria de treure clear, de moment ho deixo per fer proves
 		newDish.getCategories().clear();
 
 		newDish.getCategories().addAll(

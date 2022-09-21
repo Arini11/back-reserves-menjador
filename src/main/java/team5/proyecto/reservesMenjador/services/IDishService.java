@@ -22,7 +22,7 @@ public interface IDishService {
 
 	public Dish saveDish(Dish dish); //CREATE 
 	
-	public Dish updateDish(Dish dish,byte[] imatge); //UPDATE amb imatge
+	public Dish updateDishImage(int id, byte[] image); //UPDATE amb imatge
 	
 	public Dish updateDish(Dish dish); //UPDATE
 

@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.header.writers.StaticHeadersWriter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -61,7 +62,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .addFilter(new JWTAuthenticationFilter(authenticationManager()))
 
             // Las demás peticiones pasarán por este filtro para validar el token
-            .addFilter(new JWTAuthorizationFilter(authenticationManager()));
+            .addFilter(new JWTAuthorizationFilter(authenticationManager()))
+            .headers()
+            .addHeaderWriter(
+                    new StaticHeadersWriter("Access-Control-Allow-Origin", "localhost")
+            )
+            .addHeaderWriter(new StaticHeadersWriter("Access-Control-Allow-Origin", "localhost:4200"));
     }
 	
 	@Override
