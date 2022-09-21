@@ -68,11 +68,11 @@ public class OrderServiceImpl implements IOrderService {
 	@Override
 	public Order addOrder(Order o) {
 		// Ignorem el que posa l'usuari a aquests tres camps i posem aixo:
-		o.setCreatedOn(LocalDateTime.now().atOffset(ZoneOffset.UTC));
+		o.setCreatedOn(LocalDateTime.now().atOffset(ZoneOffset.ofHours(+2)));
 		o.setModifiedOn(LocalDateTime.now().atOffset(ZoneOffset.UTC));
 		o.setDelivered(DeliveryStatus.P);
 		
-		System.out.println(LocalDateTime.now().atOffset(ZoneOffset.UTC));
+		System.out.println(LocalDateTime.now().atOffset(ZoneOffset.ofHours(+2)));
 		System.out.println(o.getCreatedOn());
 		System.out.println(o.getCreatedOn().toInstant());
 		
