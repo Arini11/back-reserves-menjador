@@ -39,6 +39,11 @@ public class UsersController {
 		return userServiceImpl.getUsers();
 	}
 	
+	@GetMapping("/users/usernames")
+	public List<String> getAllUsernames(){
+		return userServiceImpl.getAllUsernames();
+	}
+	
 	@GetMapping("/response-entity-builder-with-http-headers")
 	public ResponseEntity<String> usingResponseEntityBuilderAndHttpHeaders() {
 	    HttpHeaders responseHeaders = new HttpHeaders();

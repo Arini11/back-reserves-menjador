@@ -3,6 +3,8 @@ package team5.proyecto.reservesMenjador.services;
 import java.util.List;
 import static java.util.Collections.emptyList;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,6 +25,15 @@ public class UserServiceImpl implements IUserService,UserDetailsService {
 	@Override
 	public List<Users> getUsers() {
 		return iuserDAO.findAll();
+	}
+	
+	public List<String> getAllUsernames(){
+		List<Users> users = iuserDAO.findAll();
+		List<String> usernames = new ArrayList<String>();;
+		for(int i=0;i<users.size();i++) {
+			usernames.add(users.get(i).getUsername());
+		}
+		return usernames;
 	}
 
 	@Override

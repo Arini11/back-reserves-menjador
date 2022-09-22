@@ -49,6 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         	.antMatchers(HttpMethod.POST, "/api/users/add").permitAll() // permetre registre usuaris
         	.antMatchers(HttpMethod.GET, "/api/dishes/status/**").permitAll() // permetre obtenir plats pel menu amb status true
         	.antMatchers(HttpMethod.GET, "/api/categories").permitAll() // permetre obtenir categories
+        	.antMatchers(HttpMethod.GET, "/api/users/usernames").permitAll()
         	.antMatchers(
         			"/v2/api-docs",           // swagger
                     "/webjars/**",            // swagger-ui webjars
