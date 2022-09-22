@@ -64,8 +64,8 @@ public class UsersController {
 	public Users updatePassword(@RequestBody Users user) {
 		Users u = userServiceImpl.findByUsername(user.getUsername());
 		u.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-		userServiceImpl.saveUser(user);
-		return user;
+		userServiceImpl.saveUser(u);
+		return u;
 	}
 
 	@GetMapping("/users/{username}")
