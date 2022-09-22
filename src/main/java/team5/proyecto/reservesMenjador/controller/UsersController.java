@@ -26,10 +26,11 @@ import team5.proyecto.reservesMenjador.services.UserServiceImpl;
 @RequestMapping("/api")
 public class UsersController {
 
-	@Autowired UserServiceImpl userServiceImpl;
-	
+	@Autowired
+	UserServiceImpl userServiceImpl;
+
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
-	
+
 	public UsersController(BCryptPasswordEncoder bCryptPasswordEncoder) {
 		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
 	}
@@ -38,37 +39,42 @@ public class UsersController {
 	public List<Users> getUsers() {
 		return userServiceImpl.getUsers();
 	}
-	
+
 	@GetMapping("/users/usernames")
-	public List<String> getAllUsernames(){
+	public List<String> getAllUsernames() {
 		return userServiceImpl.getAllUsernames();
 	}
-	
+
 	@GetMapping("/response-entity-builder-with-http-headers")
 	public ResponseEntity<String> usingResponseEntityBuilderAndHttpHeaders() {
-	    HttpHeaders responseHeaders = new HttpHeaders();
-	    responseHeaders.set("Baeldung-Example-Header", 
-	      "Value-ResponseEntityBuilderWithHttpHeaders");
+		HttpHeaders responseHeaders = new HttpHeaders();
+		responseHeaders.set("Baeldung-Example-Header", "Value-ResponseEntityBuilderWithHttpHeaders");
 
-	    return ResponseEntity.ok()
-	      .headers(responseHeaders)
-	      .body("Response with header using ResponseEntity");
+		return ResponseEntity.ok().headers(responseHeaders).body("Response with header using ResponseEntity");
 	}
-	
+
 	@PostMapping("/users/add")
 	public Users saveUser(@RequestBody Users user) {
 		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		userServiceImpl.saveUser(user);
 		return user;
 	}
-	
+
+	@PutMapping("/users/password")
+	public Users updatePassword(@RequestBody Users user) {
+		Users u = userServiceImpl.findByUsername(user.getUsername());
+		u.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+		userServiceImpl.saveUser(user);
+		return user;
+	}
+
 	@GetMapping("/users/{username}")
-	public Users userByUsername(@PathVariable(name = "username")String username) {
+	public Users userByUsername(@PathVariable(name = "username") String username) {
 		return userServiceImpl.findByUsername(username);
 	}
-	
-	@PutMapping("/users/update/{username}") 
-	public Users updateUser(@PathVariable(name = "username") String username, @RequestBody Users user){
+
+	@PutMapping("/users/update/{username}")
+	public Users updateUser(@PathVariable(name = "username") String username, @RequestBody Users user) {
 		Users user_seleccionado = userServiceImpl.findByUsername(username);
 		user_seleccionado.setEmail(user.getEmail());
 		return userServiceImpl.saveUser(user_seleccionado);
@@ -77,11 +83,12 @@ public class UsersController {
 	@DeleteMapping("/users/delete/{id}")
 	public void deleteUser(Users username) {
 		userServiceImpl.deleteUser(username);
-	}	
-	
-	@PostMapping("/users/update-img/{username}")
-	public Users updateImgUser(@RequestPart(value="file") MultipartFile file, @PathVariable(name = "username")String username) throws IOException {
-		return userServiceImpl.updateUserImage(username,file.getBytes());
 	}
-	
+
+	@PostMapping("/users/update-img/{username}")
+	public Users updateImgUser(@RequestPart(value = "file") MultipartFile file,
+			@PathVariable(name = "username") String username) throws IOException {
+		return userServiceImpl.updateUserImage(username, file.getBytes());
+	}
+
 }
