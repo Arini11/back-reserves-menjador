@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import team5.proyecto.reservesMenjador.dto.Category;
@@ -97,4 +100,36 @@ public class OrderController {
 		
 		return orderServ.addDishesToOrder(newOrder);
 	}
+	
+	private Sort.Direction getSortDirection(String direction) {
+	    if (direction.equals("asc")) {
+	      return Sort.Direction.ASC;
+	    } else if (direction.equals("desc")) {
+	      return Sort.Direction.DESC;
+	    }
+
+	    return Sort.Direction.ASC;
+	  }
+	
+	// Ordenar llista ordres
+	@GetMapping("/orders/sorted")
+	  public List<Order> getAllOrdersSorted(@RequestParam(defaultValue = "id,desc") String[] sort) {
+	      List<org.springframework.data.domain.Sort.Order> orders = new ArrayList<org.springframework.data.domain.Sort.Order>();
+
+	      if (sort[0].contains(",")) {
+	        // will sort more than 2 fields
+	        // sortOrder="field, direction"
+	        for (String sortOrder : sort) {
+	          String[] _sort = sortOrder.split(",");
+	          orders.add(new org.springframework.data.domain.Sort.Order(getSortDirection(_sort[1]), _sort[0]));
+	        }
+	      } else {
+	        // sort=[field, direction]
+	        orders.add(new org.springframework.data.domain.Sort.Order(getSortDirection(sort[1]), sort[0]));
+	      }
+
+	      List<Order> ordres = orderServ.findAll(Sort.by(orders));
+
+	      return ordres;
+	  }
 }

@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.format.datetime.joda.LocalDateTimeParser;
 import org.springframework.stereotype.Service;
 
@@ -132,17 +133,8 @@ public class OrderServiceImpl implements IOrderService {
 		o.setDelivered(DeliveryStatus.C); // Canceled
 		return orderDAO.save(o);
 	}
-/*
-	private Date getDefaultDateTime() {
-		LocalDateTime ldt = LocalDateTime.now();
-		System.out.println(ldt.getYear());
-		System.out.println(ldt.getMonth());
-		System.out.println(ldt.getDayOfMonth());
-		System.out.println(ldt.getYear());
-		System.out.println(ldt.getYear());
 
-		return null;
+	public List<Order> findAll(Sort by) {
+		return orderDAO.findAll(by);
 	}
-
-*/
 }
