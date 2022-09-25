@@ -2,8 +2,8 @@ package team5.proyecto.reservesMenjador.dao;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import team5.proyecto.reservesMenjador.dto.Roles;
+import team5.proyecto.reservesMenjador.dto.Rol;
 
-public interface IRolesDAO extends JpaRepository<Roles, Long>{
+public interface IRolDAO extends JpaRepository<Rol, Integer>{
 
 }

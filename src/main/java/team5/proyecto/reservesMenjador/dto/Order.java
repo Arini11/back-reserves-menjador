@@ -1,11 +1,11 @@
 package team5.proyecto.reservesMenjador.dto;
 
-import java.util.Date;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 import javax.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.lang.NonNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,18 +23,19 @@ public class Order {
 	@Id	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private @Getter @Setter int id;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	private @Getter @Setter Date createdOn;
+	@NonNull 
+	private @Getter @Setter OffsetDateTime createdOn;
 	
-	@Temporal(TemporalType.TIMESTAMP)
-	private @Getter @Setter Date modifiedOn;
+	@NonNull 
+	private @Getter @Setter OffsetDateTime modifiedOn;
 	
-	@Temporal(TemporalType.TIMESTAMP)
-	private @Getter @Setter Date deliveryOn;
+	@NonNull 
+	private @Getter @Setter OffsetDateTime deliveryOn;
 	
-	private @Getter @Setter char delivered;
+	@NonNull @Enumerated(EnumType.STRING)
+	private @Getter @Setter DeliveryStatus delivered;
 	
-	@Exclude @ManyToOne	@JoinColumn(name = "user_id")
+	@NonNull @Exclude @ManyToOne @JoinColumn(name = "user_id")
 	private @Getter @Setter Users user;
 	
 	//creacion tabla NM intermedia

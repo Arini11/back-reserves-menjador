@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.header.writers.StaticHeadersWriter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -45,6 +46,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         	.cors().and().csrf().disable()
         	.authorizeRequests()
         	.antMatchers(HttpMethod.POST, LOGIN_URL).permitAll() //permitimos el acceso a /login a cualquiera
+        	.antMatchers(HttpMethod.POST, "/api/users/add").permitAll() // permetre registre usuaris
+        	.antMatchers(HttpMethod.GET, "/api/dishes/status/**").permitAll() // permetre obtenir plats pel menu amb status true
+        	.antMatchers(HttpMethod.GET, "/api/categories").permitAll() // permetre obtenir categories
+        	.antMatchers(HttpMethod.GET, "/api/users/usernames").permitAll()
         	.antMatchers(
         			"/v2/api-docs",           // swagger
                     "/webjars/**",            // swagger-ui webjars
@@ -58,7 +63,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .addFilter(new JWTAuthenticationFilter(authenticationManager()))
 
             // Las demás peticiones pasarán por este filtro para validar el token
-            .addFilter(new JWTAuthorizationFilter(authenticationManager()));
+            .addFilter(new JWTAuthorizationFilter(authenticationManager()))
+            .headers()
+            .addHeaderWriter(
+                    new StaticHeadersWriter("Access-Control-Allow-Origin", "localhost")
+            )
+            .addHeaderWriter(new StaticHeadersWriter("Access-Control-Allow-Origin", "localhost:4200"));
     }
 	
 	@Override
@@ -69,8 +79,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Bean
 	CorsConfigurationSource corsConfigurationSource() {
-		final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
+		CorsConfiguration config = new CorsConfiguration();
+        config.applyPermitDefaultValues();
+        config.setAllowCredentials(true);// this line is important it sends only specified domain instead of *
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        config.addAllowedOrigin("*");
+        config.addAllowedHeader("*");
+        config.addAllowedMethod("OPTIONS");
+        config.addAllowedMethod("HEAD");
+        config.addAllowedMethod("GET");
+        config.addAllowedMethod("PUT");
+        config.addAllowedMethod("POST");
+        config.addAllowedMethod("DELETE");
+        config.addAllowedMethod("PATCH");
+		source.registerCorsConfiguration("/**", config);
 		return source;
 	}
 }

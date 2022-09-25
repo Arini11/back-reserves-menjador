@@ -13,10 +13,10 @@ public interface ICategoryService {
 	
 	public Category findByName(String name);
 	
-	public List<Category> findByDishes(Dish dish);
-	
-	public Category saveCategory(Category categ); //CREATE || UPDATE
+	public Category saveCategory(Category categ); //CREATE 
 
 	public void deleteCategory(int id);	
+	
+	public Category updateCategory(Category categ); // UPDATE
 
 }

@@ -12,7 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -38,7 +37,7 @@ public class Dish {
 	private @Getter @Setter byte[] image;
 	private @Getter @Setter int popularity;
 	private @Getter @Setter boolean status;
-	
+	private @Getter @Setter String descripcion;
 	
 
 	//creacion tabla NM intermedia
@@ -55,7 +54,6 @@ public class Dish {
 	private @Getter @Setter List<Order> orders  = new ArrayList<>();
 
 	public Dish(int id) {
-		super();
 		this.id = id;
 	}
 }
