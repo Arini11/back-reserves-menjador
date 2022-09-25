@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import team5.proyecto.reservesMenjador.dao.IUserDAO;
 import team5.proyecto.reservesMenjador.dto.Dish;
+import team5.proyecto.reservesMenjador.dto.Rol;
 import team5.proyecto.reservesMenjador.dto.Users;
 
 
@@ -38,6 +39,8 @@ public class UserServiceImpl implements IUserService,UserDetailsService {
 
 	@Override
 	public Users saveUser(Users user) {
+		Rol rol = new Rol(11,"cliente");
+		user.setRol(rol);
 		return iuserDAO.save(user);
 	}
 

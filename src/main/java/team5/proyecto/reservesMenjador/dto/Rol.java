@@ -27,4 +27,8 @@ public class Rol {
 	@OneToMany (fetch = FetchType.LAZY, mappedBy = "rol")
 	private @Getter @Setter List <Users> users;	
 	
+	public Rol(int id, String name) {
+		this.id = id;
+		this.name = name;
+	}
 }
